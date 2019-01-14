@@ -1,11 +1,20 @@
-version: '3'
+version: '3.2'
+
 services:
   db:
-    image: mysql:5.7
-    volumes:
-     - ./data/db:/var/lib/mysql
-    restart: always
+    image: postgres:9.6-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: tripy
-      MYSQL_USER: admin
+      - POSTGRES_DB=tripy
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+    - "8080:8080"
+
+volumes:
+  db-data: {}
