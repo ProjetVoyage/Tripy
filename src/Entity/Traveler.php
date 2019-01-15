@@ -22,6 +22,7 @@ class Traveler implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
+    
     private $roles = [];
     
     /**
