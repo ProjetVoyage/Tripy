@@ -22,12 +22,7 @@ class Travel
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Traveler", mappedBy="travel_id")
-     */
-    private $travelers;
-
+    
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Budget", mappedBy="travel_id")
      */
@@ -52,6 +47,11 @@ class Travel
      * @ORM\OneToMany(targetEntity="App\Entity\Itinerary", mappedBy="travel_id")
      */
     private $itineraries;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Traveler", inversedBy="travels")
+     */
+    private $travelers;
 
     public function __construct()
     {
