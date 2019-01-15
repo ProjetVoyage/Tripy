@@ -55,18 +55,6 @@ class Traveler implements UserInterface
         return $this->id;
     }
 
-    public function getTravelId(): ?Travel
-    {
-        return $this->travel_id;
-    }
-
-    public function setTravelId(?Travel $travel_id): self
-    {
-        $this->travel_id = $travel_id;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Luggage[]
      */
