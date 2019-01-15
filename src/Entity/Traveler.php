@@ -45,6 +45,11 @@ class Traveler implements UserInterface
      */
     private $travels;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
     public function __construct()
     {
         $this->luggage = new ArrayCollection();
@@ -143,13 +148,20 @@ class Traveler implements UserInterface
     }
 
     /**
-     * Returns the username used to authenticate the user.
+     * A visual identifier that represents this user.
      *
-     * @return string The username
+     * @see UserInterface
      */
-    public function getUsername()
+    public function getUsername(): string
     {
-        // TODO: Implement getUsername() method.
+        return (string) $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
