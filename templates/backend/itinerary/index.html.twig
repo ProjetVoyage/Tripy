@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Itinerary index{% endblock %}
+
+{% block body %}
+    <h1>Itinerary index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Arrival_date</th>
+                <th>Departure_time</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for itinerary in itineraries %}
+            <tr>
+                <td>{{ itinerary.id }}</td>
+                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">show</a>
+                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('itinerary_new') }}">Create new</a>
+{% endblock %}

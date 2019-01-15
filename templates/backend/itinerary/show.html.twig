@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Itinerary{% endblock %}
+
+{% block body %}
+    <h1>Itinerary</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ itinerary.id }}</td>
+            </tr>
+            <tr>
+                <th>Arrival_date</th>
+                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Departure_time</th>
+                <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('itinerary_index') }}">back to list</a>
+
+    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+
+    {{ include('backend/itinerary/_delete_form.html.twig') }}
+{% endblock %}
