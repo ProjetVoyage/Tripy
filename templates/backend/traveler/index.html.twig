@@ -9,6 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Roles</th>
+                <th>Email</th>
+                <th>Password</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -16,6 +19,9 @@
         {% for traveler in travelers %}
             <tr>
                 <td>{{ traveler.id }}</td>
+                <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>
+                <td>{{ traveler.email }}</td>
+                <td>{{ traveler.password }}</td>
                 <td>
                     <a href="{{ path('traveler_show', {'id': traveler.id}) }}">show</a>
                     <a href="{{ path('traveler_edit', {'id': traveler.id}) }}">edit</a>
@@ -23,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

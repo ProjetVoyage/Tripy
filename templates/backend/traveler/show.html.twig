@@ -11,6 +11,18 @@
                 <th>Id</th>
                 <td>{{ traveler.id }}</td>
             </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ traveler.email }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ traveler.password }}</td>
+            </tr>
         </tbody>
     </table>
 

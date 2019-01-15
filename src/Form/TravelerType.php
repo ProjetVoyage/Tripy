@@ -12,8 +12,8 @@ class TravelerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('users_id')
-            ->add('travel_id')
+            ->add('email')
+            ->add('password')
         ;
     }
 
