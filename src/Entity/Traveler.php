@@ -22,7 +22,7 @@ class Traveler
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="travelers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $users_id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="travelers")
@@ -45,14 +45,14 @@ class Traveler
         return $this->id;
     }
 
-    public function getUserId(): ?User
+    public function getUsersId(): ?User
     {
-        return $this->user_id;
+        return $this->users_id;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUserId(?User $users_id): self
     {
-        $this->user_id = $user_id;
+        $this->users_id = $users_id;
 
         return $this;
     }
