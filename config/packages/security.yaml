@@ -1,14 +1,14 @@
 security:
     encoders:
-        App\Entity\User:
+        App\Entity\Traveler:
             algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        traveler_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Traveler
                 property: email
     firewalls:
         dev:
@@ -16,6 +16,17 @@ security:
             security: false
         main:
             anonymous: true
+
+            form_login:
+                check_path: app_security_login
+                login_path: app_security_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: travels_index
+                provider: traveler_provider
+
+            logout:
+                path:   /logout
+                target: /login
 
             # activate different ways to authenticate
 
@@ -25,8 +36,9 @@ security:
             # form_login: true
             # https://symfony.com/doc/current/security/form_login_setup.html
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+        # Easy way to control access for large sections of your site
+        # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/, roles: ROLE_USER }
