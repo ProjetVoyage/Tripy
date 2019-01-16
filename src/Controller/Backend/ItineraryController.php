@@ -53,14 +53,11 @@ class ItineraryController extends AbstractController
     }
 
     /**
-     * @Route("/travels/{travelId}/itineraries/{itineraryId}", name="itinerary_show", methods={"GET"})
-     * 
-     * @ParamConverter("travel",  options={"id" = "travelId"})
-     * @ParamConverter("itinerary",  options={"id" = "itineraryId"})
+     * @Route("/itineraries/{itineraryId}", name="itinerary_show", methods={"GET"})
      */
-    public function show(Travel $travel, Itinerary $itinerary): Response
+    public function show(Itinerary $itinerary): Response
     {
-        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $travel]);
+        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $itinerary->getTravelId()]);
     }
 
     /**
@@ -71,20 +68,17 @@ class ItineraryController extends AbstractController
     {
         $form = $this->createForm(ItineraryType::class, $itinerary);
         $form->handleRequest($request);
-
-        $travel = $this->getDoctrine()
-        ->getRepository(Travel::class)
-        ->find($itinerary->getTravelId());
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $travel]);
+            return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravelId()]);
         }
 
         return $this->render('backend/itinerary/edit.html.twig', [
             'itinerary' => $itinerary,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'travel' => $itinerary->getTravelId()
         ]);
     }
 

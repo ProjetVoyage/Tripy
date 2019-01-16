@@ -22,7 +22,7 @@
                 <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('itinerary_show', {'travelId': travel.id, 'itineraryId': itinerary.id}) }}">show</a>
-                    <a href="{{ path('itinerary_edit', {'travelId': travel.id, 'itineraryId': itinerary.id}) }}">edit</a>
+                    <a href="{{ path('itinerary_edit', {'id': travel.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
