@@ -21,8 +21,8 @@
                 <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">show</a>
-                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+                    <a href="{{ path('itinerary_show', {'travelId': travel.id, 'itineraryId': itinerary.id}) }}">show</a>
+                    <a href="{{ path('itinerary_edit', {'travelId': travel.id, 'itineraryId': itinerary.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('itinerary_new') }}">Create new</a>
+    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}">Create new</a>
 {% endblock %}

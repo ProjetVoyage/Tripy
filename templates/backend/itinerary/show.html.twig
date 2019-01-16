@@ -22,9 +22,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('itinerary_index') }}">back to list</a>
+    <a href="{{ path('itinerary_index' , {'id': travel.id} ) }}">back to list</a>
 
-    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+    <a href="{{ path('itinerary_edit', {'travelId': travel.id, 'itineraryId': itinerary.id}) }}">edit</a>
 
     {{ include('backend/itinerary/_delete_form.html.twig') }}
 {% endblock %}

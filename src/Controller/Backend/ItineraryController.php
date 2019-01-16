@@ -10,19 +10,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 
 class ItineraryController extends AbstractController
 {
     /**
-     * @Route("/itineraries/", name="itinerary_index", methods={"GET"})
+     * @Route("/travels/{id}/itineraries/", name="itinerary_index", methods={"GET"})
      */
-    public function index(ItineraryRepository $itineraryRepository): Response
+    public function index(Travel $travel, ItineraryRepository $itineraryRepository): Response
     {
-        return $this->render('backend/itinerary/index.html.twig', ['itineraries' => $itineraryRepository->findAll()]);
+        $itineraries = $itineraryRepository->findBy(
+            ['travel_id' => $travel->getId()]
+        );
+
+        return $this->render('backend/itinerary/index.html.twig', ['itineraries' => $itineraries, 'travel' => $travel]);
     }
 
     /**
-     * @Route("/itineraries/travels/{id}/new", name="itinerary_new", methods={"GET","POST"})
+     * @Route("/travels/{id}/itineraries/new", name="itinerary_new", methods={"GET","POST"})
      */
     public function new(Request $request, Travel $travel): Response
     {
@@ -36,40 +42,49 @@ class ItineraryController extends AbstractController
             $entityManager->persist($itinerary);
             $entityManager->flush();
 
-            return $this->redirectToRoute('itinerary_index');
+            return $this->redirectToRoute('itinerary_index', ['travel' => $travel]);
         }
 
         return $this->render('backend/itinerary/new.html.twig', [
             'itinerary' => $itinerary,
             'form' => $form->createView(),
+            'travel' => $travel
         ]);
     }
 
     /**
-     * @Route("/itineraries/{id}", name="itinerary_show", methods={"GET"})
+     * @Route("/travels/{travelId}/itineraries/{itineraryId}", name="itinerary_show", methods={"GET"})
+     * 
+     * @ParamConverter("travel",  options={"id" = "travelId"})
+     * @ParamConverter("itinerary",  options={"id" = "itineraryId"})
      */
-    public function show(Itinerary $itinerary): Response
+    public function show(Travel $travel, Itinerary $itinerary): Response
     {
-        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary]);
+        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $travel]);
     }
 
     /**
      * @Route("/itineraries/{id}/edit", name="itinerary_edit", methods={"GET","POST"})
+     * 
      */
     public function edit(Request $request, Itinerary $itinerary): Response
     {
         $form = $this->createForm(ItineraryType::class, $itinerary);
         $form->handleRequest($request);
 
+        $travel = $this->getDoctrine()
+        ->getRepository(Travel::class)
+        ->find($itinerary->getTravelId());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('itinerary_index', ['id' => $itinerary->getId()]);
+            return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $travel]);
         }
 
         return $this->render('backend/itinerary/edit.html.twig', [
             'itinerary' => $itinerary,
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ]);
     }
 
@@ -84,6 +99,6 @@ class ItineraryController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('itinerary_index');
+        return $this->redirectToRoute('itinerary_index', ['travel' => $travel]);
     }
 }
