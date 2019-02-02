@@ -22,11 +22,6 @@ class Travel
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Budget", mappedBy="travel_id")
-     */
-    private $budgets;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TaskList", mappedBy="travel_id")
@@ -92,7 +87,7 @@ class Travel
     {
         if (!$this->travelers->contains($traveler)) {
             $this->travelers[] = $traveler;
-            $traveler->setTravelId($this);
+            $traveler->addTravel($this);
         }
 
         return $this;
@@ -102,41 +97,7 @@ class Travel
     {
         if ($this->travelers->contains($traveler)) {
             $this->travelers->removeElement($traveler);
-            // set the owning side to null (unless already changed)
-            if ($traveler->getTravelId() === $this) {
-                $traveler->setTravelId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Budget[]
-     */
-    public function getBudgets(): Collection
-    {
-        return $this->budgets;
-    }
-
-    public function addBudget(Budget $budget): self
-    {
-        if (!$this->budgets->contains($budget)) {
-            $this->budgets[] = $budget;
-            $budget->setTravelId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBudget(Budget $budget): self
-    {
-        if ($this->budgets->contains($budget)) {
-            $this->budgets->removeElement($budget);
-            // set the owning side to null (unless already changed)
-            if ($budget->getTravelId() === $this) {
-                $budget->setTravelId(null);
-            }
+                $traveler->removeTravel($this);
         }
 
         return $this;

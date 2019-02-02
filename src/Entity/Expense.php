@@ -17,14 +17,9 @@ class Expense
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
+    private $date;
 
     /**
      * @ORM\Column(type="float")
@@ -32,36 +27,29 @@ class Expense
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Budget", inversedBy="expenses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Traveler", inversedBy="expenses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $budget_id;
+    private $traveler;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->name;
+        return $this->date;
     }
 
-    public function setName(string $name): self
+    public function setStartDate(\DateTimeInterface $date): self
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
+        $this->date = $date;
 
         return $this;
     }
@@ -78,14 +66,26 @@ class Expense
         return $this;
     }
 
-    public function getBudgetId(): ?Budget
+    public function getTraveler(): ?Traveler
     {
-        return $this->budget_id;
+        return $this->traveler;
     }
 
-    public function setBudgetId(?Budget $budget_id): self
+    public function setTraveler(?Traveler $traveler): self
     {
-        $this->budget_id = $budget_id;
+        $this->traveler = $traveler;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }

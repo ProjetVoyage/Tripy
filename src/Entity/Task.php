@@ -24,7 +24,7 @@ class Task
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $due_date;
+    private $dueDate;
 
     /**
      * @ORM\Column(type="boolean")
@@ -56,12 +56,12 @@ class Task
 
     public function getDueDate(): ?\DateTimeInterface
     {
-        return $this->due_date;
+        return $this->dueDate;
     }
 
-    public function setDueDate(?\DateTimeInterface $due_date): self
+    public function setDueDate(?\DateTimeInterface $dueDate): self
     {
-        $this->due_date = $due_date;
+        $this->dueDate = $dueDate;
 
         return $this;
     }

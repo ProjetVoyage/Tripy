@@ -50,10 +50,16 @@ class Traveler implements UserInterface
      */
     private $username;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Expense", mappedBy="traveler")
+     */
+    private $expenses;
+
     public function __construct()
     {
         $this->luggage = new ArrayCollection();
         $this->travels = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +204,37 @@ class Traveler implements UserInterface
         if ($this->travels->contains($travel)) {
             $this->travels->removeElement($travel);
             $travel->removeTraveler($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Expense[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setTraveler($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->contains($expense)) {
+            $this->expenses->removeElement($expense);
+            // set the owning side to null (unless already changed)
+            if ($expense->getTraveler() === $this) {
+                $expense->setTraveler(null);
+            }
         }
 
         return $this;
