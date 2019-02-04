@@ -66,7 +66,7 @@ class Planning
         return $this->destination;
     }
 
-    public function setDestination(Destination $destination_id): self
+    public function setDestination(Destination $destination): self
     {
         $this->destination = $destination;
 

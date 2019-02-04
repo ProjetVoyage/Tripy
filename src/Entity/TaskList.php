@@ -61,7 +61,7 @@ class TaskList
         return $this->travel;
     }
 
-    public function setTravel(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
         $this->travel = $travel;
 

@@ -55,7 +55,7 @@ class Luggage
         return $this->traveler;
     }
 
-    public function setTraveler(?Traveler $traveler_id): self
+    public function setTraveler(?Traveler $traveler): self
     {
         $this->traveler = $traveler;
 
@@ -67,7 +67,7 @@ class Luggage
         return $this->travel;
     }
 
-    public function setTravel(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
         $this->travel = $travel;
 

@@ -71,7 +71,7 @@ class Destination
         return $this->itinerary;
     }
 
-    public function setItinerary(?Itinerary $itinerary_id): self
+    public function setItinerary(?Itinerary $itinerary): self
     {
         $this->itinerary = $itinerary;
 
