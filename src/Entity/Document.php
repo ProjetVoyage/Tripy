@@ -66,7 +66,7 @@ class Document
         return $this->folder;
     }
 
-    public function setFolder(?Folder $folder): self
+    public function setFolder(?Folder $folder_id): self
     {
         $this->folder = $folder;
 

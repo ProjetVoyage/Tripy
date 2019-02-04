@@ -71,7 +71,7 @@ class Destination
         return $this->itinerary;
     }
 
-    public function setItinerary(?Itinerary $itinerary): self
+    public function setItinerary(?Itinerary $itinerary_id): self
     {
         $this->itinerary = $itinerary;
 
@@ -88,8 +88,8 @@ class Destination
         $this->planning = $planning;
 
         // set the owning side of the relation if necessary
-        if ($this !== $planning->getDestinationId()) {
-            $planning->setDestinationId($this);
+        if ($this !== $planning->getDestination()) {
+            $planning->setDestination($this);
         }
 
         return $this;
