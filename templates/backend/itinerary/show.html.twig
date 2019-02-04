@@ -25,8 +25,6 @@
     <a href="{{ path('itinerary_index' , {'id': travel.id} ) }}">back to list</a>
 
     <a href="{{ path('itinerary_edit', {'id': itinerary.id} ) }}">edit</a>
-
-    <!-- <a href="{{ path('destination_show', {'id': .id} ) }}">edit</a> -->
-
+    
     {{ include('backend/itinerary/_delete_form.html.twig') }}
 {% endblock %}

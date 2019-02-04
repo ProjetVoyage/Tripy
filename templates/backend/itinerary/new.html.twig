@@ -2,11 +2,23 @@
 
 {% block title %}New Itinerary{% endblock %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('map') }}
+{% endblock %}
+
 {% block body %}
     <h1>Create new Itinerary</h1>
 
     {{ include('backend/itinerary/_form.html.twig') }}
 
+
+
+    <div id="mapid"></div>
+
     <a href="{{ path('itinerary_index' , {'id': travel.id}) }}">back to list</a>
     
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('map') }}
 {% endblock %}

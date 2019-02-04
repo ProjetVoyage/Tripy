@@ -22,7 +22,7 @@ class ItineraryController extends AbstractController
     public function index(Travel $travel, ItineraryRepository $itineraryRepository): Response
     {
         $itineraries = $itineraryRepository->findBy(
-            ['travel_id' => $travel->getId()]
+            ['travel' => $travel->getId()]
         );
 
         return $this->render('backend/itinerary/index.html.twig', ['itineraries' => $itineraries, 'travel' => $travel]);
