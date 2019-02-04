@@ -29,21 +29,31 @@ class Itinerary
     private $departure_time;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $countryName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $cityName;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="itineraries")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $travel_id;
+    private $travel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Destination", mappedBy="itinerary_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Planning", mappedBy="itinerary")
      */
-    private $destinations;
+    private $planning;
 
     public function __construct()
     {
-        $this->destinations = new ArrayCollection();
+        $this->planning = new ArrayCollection();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -75,44 +85,69 @@ class Itinerary
 
     public function getTravel(): ?Travel
     {
-        return $this->travel_id;
+        return $this->travel;
     }
 
-    public function setTravel(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
-        $this->travel_id = $travel_id;
+        $this->travel = $travel;
+
+        return $this;
+    }
+    
+    public function getCountryName(): ?string
+    {
+        return $this->countryName;
+    }
+
+    public function setCountryName(?string $countryName): self
+    {
+        $this->countryName = $countryName;
+
+        return $this;
+    }
+
+    public function getCityName(): ?string
+    {
+        return $this->cityName;
+    }
+
+    public function setCityName(?string $cityName): self
+    {
+        $this->cityName = $cityName;
 
         return $this;
     }
 
     /**
-     * @return Collection|Destination[]
+     * @return Collection|Planning[]
      */
-    public function getDestinations(): Collection
+    public function getPlanning(): Collection
     {
-        return $this->destinations;
+        return $this->planning;
     }
 
-    public function addDestination(Destination $destination): self
+    public function addPlanning(Planning $planning): self
     {
-        if (!$this->destinations->contains($destination)) {
-            $this->destinations[] = $destination;
-            $destination->setItinerary($this);
+        if (!$this->planning->contains($planning)) {
+            $this->planning[] = $planning;
+            $planning->setItinerary($this);
         }
 
         return $this;
     }
 
-    public function removeDestination(Destination $destination): self
+    public function removePlanning(Planning $planning): self
     {
-        if ($this->destinations->contains($destination)) {
-            $this->destinations->removeElement($destination);
+        if ($this->planning->contains($planning)) {
+            $this->planning->removeElement($planning);
             // set the owning side to null (unless already changed)
-            if ($destination->getItinerary() === $this) {
-                $destination->setItinerary(null);
+            if ($planning->getItinerary() === $this) {
+                $planning->setItinerary(null);
             }
         }
 
         return $this;
     }
+    
 }
