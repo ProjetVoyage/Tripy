@@ -33,7 +33,7 @@ class ItineraryController extends AbstractController
     public function new(Request $request, Travel $travel): Response
     {
         $itinerary = new Itinerary();
-        $itinerary->setTravelId($travel);
+        $itinerary->setTravel($travel);
         $form = $this->createForm(ItineraryType::class, $itinerary);
         $form->handleRequest($request);
 
@@ -57,7 +57,7 @@ class ItineraryController extends AbstractController
      */
     public function show(Itinerary $itinerary): Response
     {
-        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $itinerary->getTravelId()]);
+        return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $itinerary->getTravel()]);
     }
 
     /**
@@ -72,13 +72,13 @@ class ItineraryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravelId()]);
+            return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravel()]);
         }
 
         return $this->render('backend/itinerary/edit.html.twig', [
             'itinerary' => $itinerary,
             'form' => $form->createView(),
-            'travel' => $itinerary->getTravelId()
+            'travel' => $itinerary->getTravel()
         ]);
     }
 
