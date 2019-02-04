@@ -27,7 +27,7 @@ class Folder
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="folders")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $travel_id;
+    private $travel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="folder_id")
@@ -56,14 +56,14 @@ class Folder
         return $this;
     }
 
-    public function getTravelId(): ?Travel
+    public function getTravel(): ?Travel
     {
-        return $this->travel_id;
+        return $this->travel;
     }
 
-    public function setTravelId(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
-        $this->travel_id = $travel_id;
+        $this->travel = $travel;
 
         return $this;
     }
@@ -80,7 +80,7 @@ class Folder
     {
         if (!$this->documents->contains($document)) {
             $this->documents[] = $document;
-            $document->setFolderId($this);
+            $document->setFolder($this);
         }
 
         return $this;
@@ -91,8 +91,8 @@ class Folder
         if ($this->documents->contains($document)) {
             $this->documents->removeElement($document);
             // set the owning side to null (unless already changed)
-            if ($document->getFolderId() === $this) {
-                $document->setFolderId(null);
+            if ($document->getFolder() === $this) {
+                $document->setFolder(null);
             }
         }
 

@@ -24,7 +24,7 @@ class Task
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $due_date;
+    private $dueDate;
 
     /**
      * @ORM\Column(type="boolean")
@@ -35,7 +35,7 @@ class Task
      * @ORM\ManyToOne(targetEntity="App\Entity\TaskList", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $task_list_id;
+    private $task_list;
 
     public function getId(): ?int
     {
@@ -56,12 +56,12 @@ class Task
 
     public function getDueDate(): ?\DateTimeInterface
     {
-        return $this->due_date;
+        return $this->dueDate;
     }
 
-    public function setDueDate(?\DateTimeInterface $due_date): self
+    public function setDueDate(?\DateTimeInterface $dueDate): self
     {
-        $this->due_date = $due_date;
+        $this->dueDate = $dueDate;
 
         return $this;
     }
@@ -78,14 +78,14 @@ class Task
         return $this;
     }
 
-    public function getTaskListId(): ?TaskList
+    public function getTaskList(): ?TaskList
     {
         return $this->task_list_id;
     }
 
-    public function setTaskListId(?TaskList $task_list_id): self
+    public function setTaskList(?TaskList $task_list): self
     {
-        $this->task_list_id = $task_list_id;
+        $this->task_list = $task_list;
 
         return $this;
     }

@@ -17,51 +17,45 @@ class Expense
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
-    private $name;
+    private $date;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $description;
-
-    /**
+      /**
      * @ORM\Column(type="float")
      */
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Budget", inversedBy="expenses")
+     * @ORM\Column(type="string")
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Traveler", inversedBy="expenses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $budget_id;
+    private $traveler;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="expenses")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $travel;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->name;
+        return $this->date;
     }
 
-    public function setName(string $name): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
+        $this->date = $date;
 
         return $this;
     }
@@ -78,14 +72,38 @@ class Expense
         return $this;
     }
 
-    public function getBudgetId(): ?Budget
+    public function getDescription(): ?string
     {
-        return $this->budget_id;
+        return $this->description;
     }
 
-    public function setBudgetId(?Budget $budget_id): self
+    public function setDescription(string $description): self
     {
-        $this->budget_id = $budget_id;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTraveler(): ?Traveler
+    {
+        return $this->traveler;
+    }
+
+    public function setTraveler(?Traveler $traveler): self
+    {
+        $this->traveler = $traveler;
+
+        return $this;
+    }
+
+    public function getTravel(): ?Travel
+    {
+        return $this->travel;
+    }
+
+    public function setTravel(?Travel $travel): self
+    {
+        $this->travel = $travel;
 
         return $this;
     }

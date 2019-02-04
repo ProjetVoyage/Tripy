@@ -30,7 +30,7 @@ class Document
      * @ORM\ManyToOne(targetEntity="App\Entity\Folder", inversedBy="documents")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $folder_id;
+    private $folder;
 
     public function getId(): ?int
     {
@@ -61,14 +61,14 @@ class Document
         return $this;
     }
 
-    public function getFolderId(): ?Folder
+    public function getFolder(): ?Folder
     {
-        return $this->folder_id;
+        return $this->folder;
     }
 
-    public function setFolderId(?Folder $folder_id): self
+    public function setFolder(?Folder $folder): self
     {
-        $this->folder_id = $folder_id;
+        $this->folder = $folder;
 
         return $this;
     }

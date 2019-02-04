@@ -27,7 +27,7 @@ class TaskList
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="taskLists")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $travel_id;
+    private $travel;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="task_list_id")
@@ -56,14 +56,14 @@ class TaskList
         return $this;
     }
 
-    public function getTravelId(): ?Travel
+    public function getTravel(): ?Travel
     {
-        return $this->travel_id;
+        return $this->travel;
     }
 
-    public function setTravelId(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
-        $this->travel_id = $travel_id;
+        $this->travel = $travel;
 
         return $this;
     }
@@ -80,7 +80,7 @@ class TaskList
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks[] = $task;
-            $task->setTaskListId($this);
+            $task->setTaskList($this);
         }
 
         return $this;
@@ -91,8 +91,8 @@ class TaskList
         if ($this->tasks->contains($task)) {
             $this->tasks->removeElement($task);
             // set the owning side to null (unless already changed)
-            if ($task->getTaskListId() === $this) {
-                $task->setTaskListId(null);
+            if ($task->getTaskList() === $this) {
+                $task->setTaskList(null);
             }
         }
 

@@ -25,13 +25,13 @@ class Luggage
      * @ORM\ManyToOne(targetEntity="App\Entity\Traveler", inversedBy="luggage")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $traveler_id;
+    private $traveler;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="luggage")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $travel_id;
+    private $travel;
 
     public function getId(): ?int
     {
@@ -50,26 +50,26 @@ class Luggage
         return $this;
     }
 
-    public function getTravelerId(): ?Traveler
+    public function getTraveler(): ?Traveler
     {
-        return $this->traveler_id;
+        return $this->traveler;
     }
 
-    public function setTravelerId(?Traveler $traveler_id): self
+    public function setTraveler(?Traveler $traveler): self
     {
-        $this->traveler_id = $traveler_id;
+        $this->traveler = $traveler;
 
         return $this;
     }
 
-    public function getTravelId(): ?Travel
+    public function getTravel(): ?Travel
     {
-        return $this->travel_id;
+        return $this->travel;
     }
 
-    public function setTravelId(?Travel $travel_id): self
+    public function setTravel(?Travel $travel): self
     {
-        $this->travel_id = $travel_id;
+        $this->travel = $travel;
 
         return $this;
     }

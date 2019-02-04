@@ -21,7 +21,7 @@ class Itinerary
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $arrival_date;
+    private $arrivalDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -51,12 +51,12 @@ class Itinerary
 
     public function getArrivalDate(): ?\DateTimeInterface
     {
-        return $this->arrival_date;
+        return $this->arrivalDate;
     }
 
-    public function setArrivalDate(?\DateTimeInterface $arrival_date): self
+    public function setArrivalDate(?\DateTimeInterface $arrivalDate): self
     {
-        $this->arrival_date = $arrival_date;
+        $this->arrivalDate = $arrivalDate;
 
         return $this;
     }
@@ -73,12 +73,12 @@ class Itinerary
         return $this;
     }
 
-    public function getTravelId(): ?Travel
+    public function getTravel(): ?Travel
     {
         return $this->travel_id;
     }
 
-    public function setTravelId(?Travel $travel_id): self
+    public function setTravel(?Travel $travel_id): self
     {
         $this->travel_id = $travel_id;
 
@@ -97,7 +97,7 @@ class Itinerary
     {
         if (!$this->destinations->contains($destination)) {
             $this->destinations[] = $destination;
-            $destination->setItineraryId($this);
+            $destination->setItinerary($this);
         }
 
         return $this;
@@ -108,8 +108,8 @@ class Itinerary
         if ($this->destinations->contains($destination)) {
             $this->destinations->removeElement($destination);
             // set the owning side to null (unless already changed)
-            if ($destination->getItineraryId() === $this) {
-                $destination->setItineraryId(null);
+            if ($destination->getItinerary() === $this) {
+                $destination->setItinerary(null);
             }
         }
 

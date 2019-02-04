@@ -22,11 +22,6 @@ class Travel
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Budget", mappedBy="travel_id")
-     */
-    private $budgets;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TaskList", mappedBy="travel_id")
@@ -53,6 +48,11 @@ class Travel
      */
     private $travelers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Expense", mappedBy="travel")
+     */
+    private $expenses;
+
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -61,6 +61,7 @@ class Travel
         $this->folders = new ArrayCollection();
         $this->luggage = new ArrayCollection();
         $this->itineraries = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,7 +100,7 @@ class Travel
     {
         if (!$this->travelers->contains($traveler)) {
             $this->travelers[] = $traveler;
-            $traveler->setTravelId($this);
+            $traveler->addTravel($this);
         }
 
         return $this;
@@ -110,39 +111,8 @@ class Travel
         if ($this->travelers->contains($traveler)) {
             $this->travelers->removeElement($traveler);
             // set the owning side to null (unless already changed)
-            if ($traveler->getTravelId() === $this) {
-                $traveler->setTravelId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Budget[]
-     */
-    public function getBudgets(): Collection
-    {
-        return $this->budgets;
-    }
-
-    public function addBudget(Budget $budget): self
-    {
-        if (!$this->budgets->contains($budget)) {
-            $this->budgets[] = $budget;
-            $budget->setTravelId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBudget(Budget $budget): self
-    {
-        if ($this->budgets->contains($budget)) {
-            $this->budgets->removeElement($budget);
-            // set the owning side to null (unless already changed)
-            if ($budget->getTravelId() === $this) {
-                $budget->setTravelId(null);
+            if ($traveler->getTravels() === $this) {
+                $traveler->addTravel(null);
             }
         }
 
@@ -172,8 +142,8 @@ class Travel
         if ($this->taskLists->contains($taskList)) {
             $this->taskLists->removeElement($taskList);
             // set the owning side to null (unless already changed)
-            if ($taskList->getTravelId() === $this) {
-                $taskList->setTravelId(null);
+            if ($taskList->getTravel() === $this) {
+                $taskList->setTravel(null);
             }
         }
 
@@ -192,7 +162,7 @@ class Travel
     {
         if (!$this->folders->contains($folder)) {
             $this->folders[] = $folder;
-            $folder->setTravelId($this);
+            $folder->setTravel($this);
         }
 
         return $this;
@@ -203,8 +173,8 @@ class Travel
         if ($this->folders->contains($folder)) {
             $this->folders->removeElement($folder);
             // set the owning side to null (unless already changed)
-            if ($folder->getTravelId() === $this) {
-                $folder->setTravelId(null);
+            if ($folder->getTravel() === $this) {
+                $folder->setTravel(null);
             }
         }
 
@@ -223,7 +193,7 @@ class Travel
     {
         if (!$this->luggage->contains($luggage)) {
             $this->luggage[] = $luggage;
-            $luggage->setTravelId($this);
+            $luggage->setTravel($this);
         }
 
         return $this;
@@ -234,8 +204,8 @@ class Travel
         if ($this->luggage->contains($luggage)) {
             $this->luggage->removeElement($luggage);
             // set the owning side to null (unless already changed)
-            if ($luggage->getTravelId() === $this) {
-                $luggage->setTravelId(null);
+            if ($luggage->getTravel() === $this) {
+                $luggage->setTravel(null);
             }
         }
 
@@ -254,7 +224,7 @@ class Travel
     {
         if (!$this->itineraries->contains($itinerary)) {
             $this->itineraries[] = $itinerary;
-            $itinerary->setTravelId($this);
+            $itinerary->setTravel($this);
         }
 
         return $this;
@@ -265,8 +235,39 @@ class Travel
         if ($this->itineraries->contains($itinerary)) {
             $this->itineraries->removeElement($itinerary);
             // set the owning side to null (unless already changed)
-            if ($itinerary->getTravelId() === $this) {
-                $itinerary->setTravelId(null);
+            if ($itinerary->getTravel() === $this) {
+                $itinerary->setTravel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Expense[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setTravel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->contains($expense)) {
+            $this->expenses->removeElement($expense);
+            // set the owning side to null (unless already changed)
+            if ($expense->getTravel() === $this) {
+                $expense->setTravel(null);
             }
         }
 

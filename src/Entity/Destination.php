@@ -19,18 +19,18 @@ class Destination
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $country_name;
+    private $countryName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $city_name;
+    private $cityName;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Itinerary", inversedBy="destinations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $itinerary_id;
+    private $itinerary;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Planning", mappedBy="destination_id", cascade={"persist", "remove"})
@@ -44,36 +44,36 @@ class Destination
 
     public function getCountryName(): ?string
     {
-        return $this->country_name;
+        return $this->countryName;
     }
 
-    public function setCountryName(?string $country_name): self
+    public function setCountryName(?string $countryName): self
     {
-        $this->country_name = $country_name;
+        $this->countryName = $countryName;
 
         return $this;
     }
 
     public function getCityName(): ?string
     {
-        return $this->city_name;
+        return $this->cityName;
     }
 
-    public function setCityName(?string $city_name): self
+    public function setCityName(?string $cityName): self
     {
-        $this->city_name = $city_name;
+        $this->cityName = $cityName;
 
         return $this;
     }
 
-    public function getItineraryId(): ?Itinerary
+    public function getItinerary(): ?Itinerary
     {
-        return $this->itinerary_id;
+        return $this->itinerary;
     }
 
-    public function setItineraryId(?Itinerary $itinerary_id): self
+    public function setItinerary(?Itinerary $itinerary): self
     {
-        $this->itinerary_id = $itinerary_id;
+        $this->itinerary = $itinerary;
 
         return $this;
     }
@@ -88,8 +88,8 @@ class Destination
         $this->planning = $planning;
 
         // set the owning side of the relation if necessary
-        if ($this !== $planning->getDestinationId()) {
-            $planning->setDestinationId($this);
+        if ($this !== $planning->getDestination()) {
+            $planning->setDestination($this);
         }
 
         return $this;
