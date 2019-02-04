@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
+
 class ItineraryController extends AbstractController
 {
     /**
@@ -41,8 +42,8 @@ class ItineraryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($itinerary);
             $entityManager->flush();
-
-            return $this->redirectToRoute('itinerary_index', ['travel' => $travel]);
+            
+            return $this->redirectToRoute('itinerary_index', ['id' => $travel->getId()]);
         }
 
         return $this->render('backend/itinerary/new.html.twig', [
@@ -53,7 +54,7 @@ class ItineraryController extends AbstractController
     }
 
     /**
-     * @Route("/itineraries/{itineraryId}", name="itinerary_show", methods={"GET"})
+     * @Route("/itineraries/{id}", name="itinerary_show", methods={"GET"})
      */
     public function show(Itinerary $itinerary): Response
     {
@@ -87,12 +88,13 @@ class ItineraryController extends AbstractController
      */
     public function delete(Request $request, Itinerary $itinerary): Response
     {
+        
         if ($this->isCsrfTokenValid('delete'.$itinerary->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($itinerary);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('itinerary_index', ['travel' => $travel]);
+        return $this->redirectToRoute('itinerary_index', ['id' => $itinerary->getTravel()->getId()]);
     }
 }
