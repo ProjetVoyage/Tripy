@@ -1,0 +1,20 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #F2F2F2;
+}
+
+.bg-black {
+    background-color: #4F4F4F;
+}
+
+.navbar-light .navbar-nav .nav-link, .nav-item .active, .navbar-light .navbar-nav .active>.nav-link {
+    color: white;
+}
+
+.grad-back {
+    background: linear-gradient(180deg, #56CCF2 0%, rgba(255, 255, 255, 0) 100%), #008CEE;
+}

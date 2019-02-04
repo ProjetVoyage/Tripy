@@ -21,10 +21,15 @@ class Expense
      */
     private $date;
 
-    /**
+      /**
      * @ORM\Column(type="float")
      */
     private $amount;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Traveler", inversedBy="expenses")
@@ -33,21 +38,22 @@ class Expense
     private $traveler;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="expenses")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $name;
+    private $travel;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setStartDate(\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -66,6 +72,18 @@ class Expense
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function getTraveler(): ?Traveler
     {
         return $this->traveler;
@@ -78,14 +96,14 @@ class Expense
         return $this;
     }
 
-    public function getName(): ?string
+    public function getTravel(): ?Travel
     {
-        return $this->name;
+        return $this->travel;
     }
 
-    public function setName(string $name): self
+    public function setTravel(?Travel $travel): self
     {
-        $this->name = $name;
+        $this->travel = $travel;
 
         return $this;
     }
