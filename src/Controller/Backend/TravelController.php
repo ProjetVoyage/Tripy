@@ -53,8 +53,13 @@ class TravelController extends AbstractController
      */
     public function show(Travel $travel): Response
     {
-        return $this->render('backend/travel/show.html.twig', ['travel' => $travel]);
+        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers()]);
     }
+
+
+   
+    
+
 
     /**
      * @Route("/{id}/edit", name="travel_edit", methods={"GET","POST"})
@@ -89,4 +94,8 @@ class TravelController extends AbstractController
 
         return $this->redirectToRoute('travel_index');
     }
+
+    
+ 
+  
 }

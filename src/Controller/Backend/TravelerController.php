@@ -23,6 +23,16 @@ class TravelerController extends AbstractController
         return $this->render('backend/traveler/index.html.twig', ['travelers' => $travelerRepository->findAll()]);
     }
 
+
+ 
+    /**
+     * @Route("/travels/{id}", name="traveler_travels", methods={"GET"})
+     */
+    public function travels(TravelerRepository $travelerRepository): Response
+    {
+        return $this->render('backend/traveler/show_traveler_travel.twig', ['travelers' => $travelerRepository->findAll()]);
+    }
+
     /**
      * @Route("/new", name="traveler_new", methods={"GET","POST"})
      */
