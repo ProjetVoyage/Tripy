@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Expense{% endblock %}
+
+{% block body %}
+    <h1>Edit Expense</h1>
+
+    {{ include('backend/expense/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('expense_index', { 'id': travel.id }) }}">back to list</a>
+
+    {{ include('backend/expense/_delete_form.html.twig') }}
+{% endblock %}
