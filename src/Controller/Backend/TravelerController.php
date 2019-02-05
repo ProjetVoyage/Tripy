@@ -25,13 +25,6 @@ class TravelerController extends AbstractController
 
 
  
-    /**
-     * @Route("/travels/{id}", name="traveler_travels", methods={"GET"})
-     */
-    public function travels(TravelerRepository $travelerRepository): Response
-    {
-        return $this->render('backend/traveler/show_traveler_travel.twig', ['travelers' => $travelerRepository->findAll()]);
-    }
 
     /**
      * @Route("/new", name="traveler_new", methods={"GET","POST"})
@@ -61,7 +54,7 @@ class TravelerController extends AbstractController
      */
     public function show(Traveler $traveler): Response
     {
-        return $this->render('backend/traveler/show.html.twig', ['traveler' => $traveler]);
+        return $this->render('backend/traveler/show.html.twig', ['traveler' => $traveler, 'travels'=>$traveler->getTravels()]);
     }
 
     /**
@@ -75,7 +68,7 @@ class TravelerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('traveler_index', ['id' => $traveler->getId()]);
+            return $this->redirectToRoute('traveler_index', ['id' => $traveler->getId(), ]);
         }
 
         return $this->render('backend/traveler/edit.html.twig', [

@@ -79,6 +79,9 @@ class TravelController extends AbstractController
             'travel' => $travel,
             'form' => $form->createView(),
         ]);
+
+       // 'form' => $form->createView(),'travelers'=>$travel->getTravelers()
+
     }
 
     /**
