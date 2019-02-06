@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * @Route("/travelers")
@@ -28,17 +30,23 @@ class TravelerController extends AbstractController
 
     /**
      * @Route("/new", name="traveler_new", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $traveler = new Traveler();
         $form = $this->createForm(TravelerType::class, $traveler);
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($traveler);
-            $entityManager->flush();
+            $password = $passwordEncoder->encodePassword($traveler, $traveler->getPassword());
+            $traveler->setPassword($password);
+            $traveler->setRoles(['ROLE_USER']);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($traveler);
+            $em->flush();
 
             return $this->redirectToRoute('traveler_index');
         }
@@ -59,13 +67,18 @@ class TravelerController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="traveler_edit", methods={"GET","POST"})
+     *  @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function edit(Request $request, Traveler $traveler): Response
+    public function edit(Request $request, Traveler $traveler, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(TravelerType::class, $traveler);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordEncoder->encodePassword($traveler, $traveler->getPassword());
+            $traveler->setPassword($password);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('traveler_index', ['id' => $traveler->getId(), ]);

@@ -57,9 +57,6 @@ class TravelController extends AbstractController
     }
 
 
-   
-    
-
 
     /**
      * @Route("/{id}/edit", name="travel_edit", methods={"GET","POST"})
