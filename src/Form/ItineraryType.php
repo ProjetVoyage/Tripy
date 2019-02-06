@@ -12,9 +12,7 @@ class ItineraryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('departure_time', DateTimeType::class)
-            ->add('arrival_date', DateTimeType::class);
+        
     }
 
     public function configureOptions(OptionsResolver $resolver)
