@@ -53,6 +53,16 @@ class Travel
      */
     private $expenses;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $start_date;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $end_date;
+
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -263,6 +273,30 @@ class Travel
                 $expense->setTravel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStartDate(): ?\DateTimeInterface
+    {
+        return $this->start_date;
+    }
+
+    public function setStartDate(?\DateTimeInterface $start_date): self
+    {
+        $this->start_date = $start_date;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->end_date;
+    }
+
+    public function setEndDate(?\DateTimeInterface $end_date): self
+    {
+        $this->end_date = $end_date;
 
         return $this;
     }
