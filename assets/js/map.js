@@ -46,9 +46,7 @@ window.onload = function () {
     // });
     
     // map.on('click', onClick);
-    
-	
-	// map.on('click', onClick);
+
 	
     map.on('click', function(e) {
         
@@ -59,12 +57,12 @@ window.onload = function () {
 		    jsonpCallback: 'data',
 		    data: { format: "json", limit: 1,lat: e.latlng.lat,lon: e.latlng.lng, adressdetails : 1, json_callback: 'data' },
 		    error: function() {
-            alert('Probl�me de requ�te'); },
+            alert('Problème de requète'); },
 		    success: function(data){
                 
 			paysVisite = data.address['country'];
 			
-			L.marker(e.latlng, {icon: myIcon}).addTo(map).bindPopup(" Pays : "+ paysVisite).openPopup();
+			L.marker(e.latlng).addTo(map).bindPopup(" Pays : "+ paysVisite).openPopup();
 			L.circle(e.latlng, 1).addTo(map);	
 
 				var chaine="";
