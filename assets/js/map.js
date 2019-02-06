@@ -55,21 +55,42 @@ window.onload = function () {
 		    url: "http://nominatim.openstreetmap.org/reverse",
 		    dataType: 'jsonp',
 		    jsonpCallback: 'data',
-		    data: { format: "json", limit: 1,lat: e.latlng.lat,lon: e.latlng.lng, adressdetails : 1, json_callback: 'data' },
+            data: {
+                format: "json",
+                limit: 1,
+                lat: e.latlng.lat,
+                lon: e.latlng.lng,
+                adressdetails : 1,
+                json_callback: 'data'
+            },
 		    error: function() {
             alert('Problème de requète'); },
 		    success: function(data){
                 
-			paysVisite = data.address['country'];
-			
-			L.marker(e.latlng).addTo(map).bindPopup(" Pays : "+ paysVisite).openPopup();
-			L.circle(e.latlng, 1).addTo(map);	
+                if( data.address !== undefined ){
+                    paysVisite = data.address['country'];
+                
+                    L.marker(e.latlng).addTo(map).bindPopup(
+                        "<form action='.php' method='post'>"
+                        +paysVisite
+                        +"<input type='text' name='testName'><br>"
+                        +"<input type='submit' value='Submit'>"
+                        +"</form>"
+                    ).openPopup();
+                        
+                
+                    // L.marker(e.latlng).addTo(map).bindPopup(
+                    //     " Pays : "+ paysVisite
+                    //     ).openPopup();
 
-				var chaine="";
-				chaine+="Latitude : "+e.latlng.lat+"</br>";
-				chaine+="Longitute : "+e.latlng.lng+"</br>";
-				chaine+="Pays : "+paysVisite+"</br>";
-				$( "#info" ).html(chaine);
+                    L.circle(e.latlng, 1).addTo(map);	
+                    
+                    var chaine="";
+                    chaine+="Latitude : "+e.latlng.lat+"</br>";
+                    chaine+="Longitute : "+e.latlng.lng+"</br>";
+                    chaine+="Pays : "+paysVisite+"</br>";
+                    $( "#info" ).html(chaine);
+                }
 		    }
 		});
     });
