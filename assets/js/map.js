@@ -31,9 +31,7 @@ window.onload = function () {
     var map = L.map('map').setView([59,13.18359],3);
     
         L.tileLayer('https://api.mapbox.com/styles/v1/albert24/cizpdeq9q00ee2ro16ga4ecqr/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWxiZXJ0MjQiLCJhIjoiY2l6cGRkcmp4MDAwbTJ3czNjdHRpd28wOCJ9.RyAFYmq9Wp9yZFEzkmrj7A',
-            {
-                attribution: 'HERSERANT Tanguy\'s & KRASNIQI Albert\'s work.'
-            }
+            
         ).addTo(map);
         
 	// var myIcon = L.icon({
