@@ -8,12 +8,18 @@
 
 {% block body %}
     <h1>Création d'Itinéraire</h1>
-    
-    {{ include('backend/itinerary/_form.html.twig') }}
-    
+    <div style="display: flex; align-items: center;">
+
+        <div>
+            {{ include('backend/itinerary/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+        </div>
+        
+        <div id="map"></div>
+
+    </div>
+
     <a href="{{ path('itinerary_index' , {'id': travel.id}) }}">back to list</a>
     
-    <div id="map"></div>
 {% endblock %}
 
 {% block javascripts %}
