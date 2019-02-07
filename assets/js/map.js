@@ -68,28 +68,25 @@ window.onload = function () {
 		    success: function(data){
                 
                 if( data.address !== undefined ){
-                    paysVisite = data.address['country'];
-                
-                    L.marker(e.latlng).addTo(map).bindPopup(
-                        "<form action='.php' method='post'>"
-                        +paysVisite
-                        +"<input type='text' name='testName'><br>"
-                        +"<input type='submit' value='Submit'>"
-                        +"</form>"
-                    ).openPopup();
-                        
-                
-                    // L.marker(e.latlng).addTo(map).bindPopup(
-                    //     " Pays : "+ paysVisite
-                    //     ).openPopup();
+                    country = data.address['country'];
 
-                    L.circle(e.latlng, 1).addTo(map);	
+                    if( data.address['city'] !== undefined ){
+                        city = data.address['city'];
+                    }else if( data.address['county'] !== undefined ){
+                        city = data.address['county'];
+                    }else if( data.address['state'] !== undefined ){
+                        city = data.address['state'];
+                    }
                     
-                    var chaine="";
-                    chaine+="Latitude : "+e.latlng.lat+"</br>";
-                    chaine+="Longitute : "+e.latlng.lng+"</br>";
-                    chaine+="Pays : "+paysVisite+"</br>";
-                    $( "#info" ).html(chaine);
+                    L.marker(e.latlng).addTo(map).bindPopup(
+                        " Pays : "+ country+
+                        " <br> Ville : " + city
+                        ).openPopup();
+
+                    L.circle(e.latlng, 1).addTo(map);
+                    
+                    $( "input[name='itinerary[countryName]']" ).val(country);
+                    $( "input[name='itinerary[cityName]']" ).val(city);
                 }
 		    }
 		});

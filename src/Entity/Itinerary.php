@@ -26,7 +26,7 @@ class Itinerary
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $departure_time;
+    private $departureDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -71,14 +71,14 @@ class Itinerary
         return $this;
     }
 
-    public function getDepartureTime(): ?\DateTimeInterface
+    public function getDepartureDate(): ?\DateTimeInterface
     {
-        return $this->departure_time;
+        return $this->departureDate;
     }
 
-    public function setDepartureTime(?\DateTimeInterface $departure_time): self
+    public function setDepartureDate(?\DateTimeInterface $departureDate): self
     {
-        $this->departure_time = $departure_time;
+        $this->departureDate = $departureDate;
 
         return $this;
     }

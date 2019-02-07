@@ -12,12 +12,22 @@
                 <td>{{ itinerary.id }}</td> -->
             <!-- </tr> -->
             <tr>
-                <th>Arrival_date</th>
-                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Date de départ</th>
+                <td>{{ itinerary.departureDate ? itinerary.departureDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Departure_time</th>
-                <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Date d'arrivée </th>
+                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            </tr>
+            <tr>
+                <th> Pays </th>
+                <td>{{ itinerary.countryName ? itinerary.countryName : '' }}</td>
+            </tr>
+            </tr>
+            <tr>
+                <th> Ville </th>
+                <td>{{ itinerary.cityName ? itinerary.cityName : '' }}</td>
             </tr>
         </tbody>
     </table>

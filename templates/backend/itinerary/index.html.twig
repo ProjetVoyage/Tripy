@@ -9,17 +9,21 @@
         <thead>
             <tr>
                 <!-- <th>Id</th> -->
-                <th>Departure_time</th>
-                <th>Arrival_date</th>
-                <th>actions</th>
+                <th> Date de départ </th>
+                <th> Date de retour </th>
+                <th> Pays </th>
+                <th> Ville </th>
+                <th> Actions </th>
             </tr>
         </thead>
         <tbody>
         {% for itinerary in itineraries %}
             <tr>
                 <!-- <td>{{ itinerary.id }}</td> -->
-                <td>{{ itinerary.departureTime ? itinerary.departureTime|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ itinerary.departureDate ? itinerary.departureDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ itinerary.countryName ? itinerary.countryName : '' }}</td>
+                <td>{{ itinerary.cityName ? itinerary.cityName : '' }}</td>
                 <td>
                     <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">show</a>
                     <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
