@@ -28,7 +28,7 @@
                 <td>
                     {% for travel in travels %}
                   
-                    <a href="{{ path('travel_show', {'id': travel.id}) }}">  {{ travel.name }}</a>
+                    <a href="{{ path('travels_show', {'id': travel.id}) }}">  {{ travel.name }}</a>
 
                     {% endfor %}
                 </td>
