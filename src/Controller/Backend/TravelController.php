@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TravelController extends AbstractController
 {
     /**
-     * @Route("/", name="travel_index", methods={"GET"})
+     * @Route("/", name="travels_index", methods={"GET"})
      */
     public function index(TravelRepository $travelRepository): Response
     {
@@ -24,7 +24,7 @@ class TravelController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="travel_new", methods={"GET","POST"})
+     * @Route("/new", name="travels_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class TravelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="travel_show", methods={"GET"})
+     * @Route("/{id}", name="travels_show", methods={"GET"})
      */
     public function show(Travel $travel): Response
     {
@@ -59,7 +59,7 @@ class TravelController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="travel_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="travels_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Travel $travel): Response
     {
@@ -82,7 +82,7 @@ class TravelController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="travel_delete", methods={"DELETE"})
+     * @Route("/{id}", name="travels_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Travel $travel): Response
     {

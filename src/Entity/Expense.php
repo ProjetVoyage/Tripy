@@ -43,12 +43,6 @@ class Expense
      */
     private $travel;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Travel", inversedBy="expenses")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $travel;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -98,18 +92,6 @@ class Expense
     public function setTraveler(?Traveler $traveler): self
     {
         $this->traveler = $traveler;
-
-        return $this;
-    }
-
-    public function getTravel(): ?Travel
-    {
-        return $this->travel;
-    }
-
-    public function setTravel(?Travel $travel): self
-    {
-        $this->travel = $travel;
 
         return $this;
     }

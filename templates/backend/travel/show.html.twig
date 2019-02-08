@@ -29,11 +29,16 @@
         </tbody>
     </table>
 
+    <div>
     <a href="{{ path('expense_index', {'id': travel.id}) }}">gérer dépenses</a>
+    </div>
+    <div>
+        <a href="{{ path('itinerary_index', {'id': travel.id}) }}">gérer itinéraires</a>
 
-    <a href="{{ path('travel_index') }}">back to list</a>
+    </div>
+    <a href="{{ path('travels_index') }}">back to list</a>
 
-    <a href="{{ path('travel_edit', {'id': travel.id}) }}">edit</a>
+    <a href="{{ path('travels_edit', {'id': travel.id}) }}">edit</a>
 
     {{ include('backend/travel/_delete_form.html.twig') }}
 {% endblock %}
