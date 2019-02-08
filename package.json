@@ -1,14 +1,11 @@
 {
-    "devDependencies": {
-        "@symfony/webpack-encore": "^0.22.0",
-        "webpack-notifier": "^1.6.0"
-    },
-    "license": "UNLICENSED",
-    "private": true,
-    "scripts": {
-        "dev-server": "encore dev-server",
-        "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress"
-    }
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.23.0",
+    "bootstrap": "^4.2.1",
+    "jquery": "^3.3.1",
+    "webpack-notifier": "^1.6.0"
+  }
 }
