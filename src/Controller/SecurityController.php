@@ -87,4 +87,13 @@ class SecurityController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route(path="/logout", name="logout")
+     * @throws \Exception
+     */
+    public function logout(): void
+    {
+        throw new \Exception('This should never be reached!');
+    }
 }

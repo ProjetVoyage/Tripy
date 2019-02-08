@@ -8,6 +8,15 @@
       "css": [
         "/build/app.css"
       ]
+    },
+    "map": {
+      "js": [
+        "/build/runtime.js",
+        "/build/map.js"
+      ],
+      "css": [
+        "/build/map.css"
+      ]
     }
   }
 }

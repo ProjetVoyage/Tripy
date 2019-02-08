@@ -27,10 +27,9 @@ class Planning
     private $endDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Destination", inversedBy="planning", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Itinerary", inversedBy="planning")
      */
-    private $destination;
+    private $itinerary;
 
     public function getId(): ?int
     {
@@ -61,14 +60,14 @@ class Planning
         return $this;
     }
 
-    public function getDestination(): ?Destination
+    public function getItinerary(): ?Itinerary
     {
-        return $this->destination;
+        return $this->itinerary;
     }
 
-    public function setDestination(Destination $destination): self
+    public function setItinerary(?Itinerary $itinerary): self
     {
-        $this->destination = $destination;
+        $this->itinerary = $itinerary;
 
         return $this;
     }
