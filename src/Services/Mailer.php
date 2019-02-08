@@ -26,7 +26,7 @@ class Mailer
     public function buildAndSendMail(string $subject, $recever, $body): void
     {
         $message = (new \Swift_Message($subject))
-            ->setFrom('no-reply@tripyprojectesgi.com')
+            ->setFrom('tripy.project.esgi@gmail.com')
             ->setTo($recever)
             ->setBody($body, 'text/html');
 
