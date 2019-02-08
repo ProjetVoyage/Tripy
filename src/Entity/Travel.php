@@ -69,6 +69,13 @@ class Travel
         return $this->id;
     }
 
+    public function setId(): ?int
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
