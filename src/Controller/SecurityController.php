@@ -21,6 +21,8 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="login")
+     * @param AuthenticationUtils $helper
+     * @return Response
      */
     public function login(AuthenticationUtils $helper): Response
     {
