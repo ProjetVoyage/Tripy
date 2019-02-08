@@ -88,8 +88,8 @@ class Destination
         $this->planning = $planning;
 
         // set the owning side of the relation if necessary
-        if ($this !== $planning->getDestinationId()) {
-            $planning->setDestinationId($this);
+        if ($this !== $planning->getDestination()) {
+            $planning->setDestination($this);
         }
 
         return $this;

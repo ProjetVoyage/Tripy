@@ -80,7 +80,7 @@ class TaskList
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks[] = $task;
-            $task->setTaskListId($this);
+            $task->setTaskList($this);
         }
 
         return $this;
@@ -91,8 +91,8 @@ class TaskList
         if ($this->tasks->contains($task)) {
             $this->tasks->removeElement($task);
             // set the owning side to null (unless already changed)
-            if ($task->getTaskListId() === $this) {
-                $task->setTaskListId(null);
+            if ($task->getTaskList() === $this) {
+                $task->setTaskList(null);
             }
         }
 

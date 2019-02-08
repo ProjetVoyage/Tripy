@@ -80,7 +80,7 @@ class Folder
     {
         if (!$this->documents->contains($document)) {
             $this->documents[] = $document;
-            $document->setFolderId($this);
+            $document->setFolder($this);
         }
 
         return $this;
@@ -91,8 +91,8 @@ class Folder
         if ($this->documents->contains($document)) {
             $this->documents->removeElement($document);
             // set the owning side to null (unless already changed)
-            if ($document->getFolderId() === $this) {
-                $document->setFolderId(null);
+            if ($document->getFolder() === $this) {
+                $document->setFolder(null);
             }
         }
 

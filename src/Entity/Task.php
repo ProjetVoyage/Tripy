@@ -35,7 +35,7 @@ class Task
      * @ORM\ManyToOne(targetEntity="App\Entity\TaskList", inversedBy="tasks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $task_list_id;
+    private $task_list;
 
     public function getId(): ?int
     {
@@ -78,14 +78,14 @@ class Task
         return $this;
     }
 
-    public function getTaskListId(): ?TaskList
+    public function getTaskList(): ?TaskList
     {
         return $this->task_list_id;
     }
 
-    public function setTaskListId(?TaskList $task_list_id): self
+    public function setTaskList(?TaskList $task_list): self
     {
-        $this->task_list_id = $task_list_id;
+        $this->task_list = $task_list;
 
         return $this;
     }

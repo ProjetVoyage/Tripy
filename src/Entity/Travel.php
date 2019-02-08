@@ -103,7 +103,10 @@ class Travel
     {
         if ($this->travelers->contains($traveler)) {
             $this->travelers->removeElement($traveler);
-                $traveler->removeTravel($this);
+            // set the owning side to null (unless already changed)
+            if ($traveler->getTravels() === $this) {
+                $traveler->addTravel(null);
+            }
         }
 
         return $this;
@@ -132,8 +135,8 @@ class Travel
         if ($this->taskLists->contains($taskList)) {
             $this->taskLists->removeElement($taskList);
             // set the owning side to null (unless already changed)
-            if ($taskList->getTravelId() === $this) {
-                $taskList->setTravelId(null);
+            if ($taskList->getTravel() === $this) {
+                $taskList->setTravel(null);
             }
         }
 
@@ -152,7 +155,7 @@ class Travel
     {
         if (!$this->folders->contains($folder)) {
             $this->folders[] = $folder;
-            $folder->setTravelId($this);
+            $folder->setTravel($this);
         }
 
         return $this;
@@ -163,8 +166,8 @@ class Travel
         if ($this->folders->contains($folder)) {
             $this->folders->removeElement($folder);
             // set the owning side to null (unless already changed)
-            if ($folder->getTravelId() === $this) {
-                $folder->setTravelId(null);
+            if ($folder->getTravel() === $this) {
+                $folder->setTravel(null);
             }
         }
 
@@ -183,7 +186,7 @@ class Travel
     {
         if (!$this->luggage->contains($luggage)) {
             $this->luggage[] = $luggage;
-            $luggage->setTravelId($this);
+            $luggage->setTravel($this);
         }
 
         return $this;
@@ -194,8 +197,8 @@ class Travel
         if ($this->luggage->contains($luggage)) {
             $this->luggage->removeElement($luggage);
             // set the owning side to null (unless already changed)
-            if ($luggage->getTravelId() === $this) {
-                $luggage->setTravelId(null);
+            if ($luggage->getTravel() === $this) {
+                $luggage->setTravel(null);
             }
         }
 
@@ -214,7 +217,7 @@ class Travel
     {
         if (!$this->itineraries->contains($itinerary)) {
             $this->itineraries[] = $itinerary;
-            $itinerary->setTravelId($this);
+            $itinerary->setTravel($this);
         }
 
         return $this;
@@ -225,8 +228,39 @@ class Travel
         if ($this->itineraries->contains($itinerary)) {
             $this->itineraries->removeElement($itinerary);
             // set the owning side to null (unless already changed)
-            if ($itinerary->getTravelId() === $this) {
-                $itinerary->setTravelId(null);
+            if ($itinerary->getTravel() === $this) {
+                $itinerary->setTravel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Expense[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setTravel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->contains($expense)) {
+            $this->expenses->removeElement($expense);
+            // set the owning side to null (unless already changed)
+            if ($expense->getTravel() === $this) {
+                $expense->setTravel(null);
             }
         }
 
