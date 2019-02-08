@@ -14,6 +14,17 @@
             <tr>
                 <th>Name</th>
                 <td>{{ travel.name }}</td>
+
+            </tr>
+             <tr>
+                <th>Traveler</th>    
+                <td>
+                    {% for traveler in travelers %}
+                  
+                    <a href="{{ path('traveler_show', {'id': traveler.id}) }}">  {{ traveler.username }}</a>
+
+                    {% endfor %}
+                </td>
             </tr>
         </tbody>
     </table>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Traveler;
 use App\Form\TravelerType;
+use App\Services\User\Manager\UserManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,8 +20,23 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class SecurityController extends AbstractController
 {
+
+    /**
+     * @var UserManager
+     */
+    private $manager;
+
+    public function __construct(
+        UserManager $manager
+    )
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @Route("/login", name="login")
+     * @param AuthenticationUtils $helper
+     * @return Response
      */
     public function login(AuthenticationUtils $helper): Response
     {
@@ -52,6 +68,17 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($traveler);
             $em->flush();
+
+            if ($traveler) {
+                dump($traveler);
+                try {
+                    $this->manager->sendWelcomeEmail($traveler);
+                } catch (\Twig_Error_Loader $e) {
+                } catch (\Twig_Error_Runtime $e) {
+                } catch (\Twig_Error_Syntax $e) {
+                }
+            }
+
             return $this->redirectToRoute('app_security_login');
         }
         return $this->render(

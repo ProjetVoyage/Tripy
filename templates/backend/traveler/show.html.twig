@@ -23,6 +23,16 @@
                 <th>Password</th>
                 <td>{{ traveler.password }}</td>
             </tr>
+              <tr>
+                <th>My Travels</th>    
+                <td>
+                    {% for travel in travels %}
+                  
+                    <a href="{{ path('travel_show', {'id': travel.id}) }}">  {{ travel.name }}</a>
+
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

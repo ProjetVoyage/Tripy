@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'Itinéraire{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('map') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Création d'Itinéraire</h1>
+    <div style="display: flex; align-items: center;">
+
+        <div>
+            {{ include('backend/itinerary/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
+        </div>
+        
+        <div id="map"></div>
+
+    </div>
+
+    <a href="{{ path('itinerary_index' , {'id': travel.id}) }}">back to list</a>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('map') }}
+{% endblock %}
