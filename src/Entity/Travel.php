@@ -48,6 +48,11 @@ class Travel
      */
     private $travelers;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Expense", mappedBy="travel")
+     */
+    private $expenses;
+
     public function __construct()
     {
         $this->travelers = new ArrayCollection();
@@ -56,6 +61,7 @@ class Travel
         $this->folders = new ArrayCollection();
         $this->luggage = new ArrayCollection();
         $this->itineraries = new ArrayCollection();
+        $this->expenses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +227,37 @@ class Travel
             // set the owning side to null (unless already changed)
             if ($itinerary->getTravelId() === $this) {
                 $itinerary->setTravelId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Expense[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expense $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setTravel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expense $expense): self
+    {
+        if ($this->expenses->contains($expense)) {
+            $this->expenses->removeElement($expense);
+            // set the owning side to null (unless already changed)
+            if ($expense->getTravel() === $this) {
+                $expense->setTravel(null);
             }
         }
 

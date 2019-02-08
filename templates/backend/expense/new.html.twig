@@ -8,4 +8,14 @@
     {{ include('backend/expense/_form.html.twig') }}
 
     <a href="{{ path('expense_index', { 'id': travel.id }) }}">back to list</a>
+
+
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: "dd/mm/yyyy"
+            });
+        });
+    </script>
 {% endblock %}

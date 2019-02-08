@@ -6,22 +6,51 @@ use App\Entity\Expense;
 use App\Entity\Travel;
 use App\Form\ExpenseType;
 use App\Repository\ExpenseRepository;
-use App\Repository\TravelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class ExpenseController extends AbstractController
 {
     /**
      * @Route("travels/{id}/expenses/", name="expense_index", methods={"GET"})
      */
-    public function index(ExpenseRepository $expenseRepository, Travel $travel): Response
+    public function index(ExpenseRepository $expenseRepository, Travel $travel, Request $request): Response
     {
-        $expenses = $expenseRepository->findBy(['travel' => $travel]);
+        if($request->query->get('date')) {
+            $date = date_create($request->query->get('date'));
 
-        return $this->render('backend/expense/index.html.twig', ['expenses' => $expenses, 'travel' => $travel]);
+            $expenses = $expenseRepository->findBy(['travel' => $travel, 'date' => $date] , ['date' => 'DESC']);
+        } else {
+            $expenses = $expenseRepository->findBy(['travel' => $travel] , ['date' => 'DESC']);
+        }
+
+        $em = $this->getDoctrine()->getRepository(Expense::class);
+        $qb = $em->createQueryBuilder('e');
+
+        $dates = $qb->select('e.date')
+            ->orderBy('e.date', 'DESC')
+            ->groupBy('e.date')
+            ->getQuery()
+            ->getResult();
+
+        $total = 0;
+
+        foreach ($expenses as $expense) {
+            $total += $expense->getAmount();
+        }
+
+        if($request->query->get('date')) {
+            $date = date_create($request->query->get('date'));
+
+            $values = ['date' => $date, 'total' => $total, 'dates' => $dates, 'expenses' => $expenses, 'travel' => $travel];
+        } else {
+            $values = ['total' => $total, 'dates' => $dates, 'expenses' => $expenses, 'travel' => $travel];
+        }
+
+        return $this->render('backend/expense/index.html.twig', $values);
     }
 
     /**
@@ -54,7 +83,7 @@ class ExpenseController extends AbstractController
      */
     public function show(Expense $expense): Response
     {
-        return $this->render('backend/expense/show.html.twig', ['expense' => $expense]);
+        return $this->render('backend/expense/show.html.twig', ['expense' => $expense ]);
     }
 
     /**
@@ -79,7 +108,7 @@ class ExpenseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="expense_delete", methods={"DELETE"})
+     * @Route("/expenses/{id}", name="expense_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Expense $expense): Response
     {
@@ -89,6 +118,17 @@ class ExpenseController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('expense_index', ['id' => $expense->getTravel()->getId()]);
+        return $this->redirectToRoute('expense_index', ['expenses' => $expense->getTravel()->getExpenses(), 'id' => $expense->getTravel()->getId()]);
+    }
+
+    /**
+     * @Route("/expenses/date/show", name="expense_at_date", methods={"GET"})
+     */
+    public function showAtDate(ExpenseRepository $expenseRepository, Request $request)
+    {
+        $date = $request->query->get('date');
+        $expenses = $expenseRepository->findByDate(date_create($date["date"]["date"]));
+
+        return $this->render('backend/expense/show.html.twig', ['expenses' => $expenses, 'travel' => $expenses[0]->getTravel()]);
     }
 }
