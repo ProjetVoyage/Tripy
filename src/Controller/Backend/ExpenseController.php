@@ -60,6 +60,7 @@ class ExpenseController extends AbstractController
     {
         $expense = new Expense();
         $expense->setTravel($travel);
+
         $form = $this->createForm(ExpenseType::class, $expense);
         $form->handleRequest($request);
 

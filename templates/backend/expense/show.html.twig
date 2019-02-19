@@ -11,7 +11,7 @@
             <tr>
                 <td>{{ expense.id }}</td>
                 <td>{{ expense.date ? expense.date|date('d/m/Y') : '' }}</td>
-                <td>{{ expense.name }}</td>
+                <td>{{ expense.description }}</td>
                 <td>{{ expense.amount }} €</td>
                 <td>
                     <a href="{{ path('expense_edit', {'id': expense.id}) }}">edit</a>

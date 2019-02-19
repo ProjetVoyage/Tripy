@@ -38,7 +38,7 @@
                 {% for expense in expenses %}
                     <tr>
                         <td>{{ expense.date ? expense.date|date('d/m/Y') : '' }}</td>
-                        <td>{{ expense.name }}</td>
+                        <td>{{ expense.description }}</td>
                         <td>{{ expense.amount }} €</td>
                         <td>{{ expense.traveler.username }}</td>
                         <td>

@@ -69,7 +69,7 @@ class TravelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('travel_index', ['id' => $travel->getId()]);
+            return $this->redirectToRoute('travels_index', ['id' => $travel->getId()]);
         }
 
         return $this->render('backend/travel/edit.html.twig', [
@@ -92,7 +92,7 @@ class TravelController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('travel_index');
+        return $this->redirectToRoute('travels_index');
     }
 
     
