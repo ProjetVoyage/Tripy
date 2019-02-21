@@ -72,7 +72,6 @@ class ItineraryController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravel()]);
         }
 
