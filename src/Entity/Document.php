@@ -49,12 +49,12 @@ class Document
         return $this;
     }
 
-    public function getUrl(): ?string
+    public function getUrl()
     {
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl($url)
     {
         $this->url = $url;
 
@@ -71,5 +71,8 @@ class Document
         $this->folder = $folder;
 
         return $this;
+    }
+    public function __toString(){
+        return $this->name;
     }
 }
