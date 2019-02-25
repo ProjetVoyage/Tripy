@@ -32,6 +32,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <a href="{{ path('folder_index', {'id': folder.id}) }}">back to folder list</a>
     <a href="{{ path('document_new') }}">Create new</a>
 {% endblock %}

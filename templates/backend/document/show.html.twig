@@ -22,7 +22,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('document_index') }}">back to list</a>
+    <a href="{{ path('document_index', {'id': document.id}) }}">back to list</a>
 
     <a href="{{ path('document_edit', {'id': document.id}) }}">edit</a>
 

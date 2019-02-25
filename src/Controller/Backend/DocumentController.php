@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller\Backend;
-
+use App\Entity\Folder;
 use App\Entity\Document;
 use App\Form\DocumentType;
 use App\Repository\DocumentRepository;
@@ -12,17 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/document")
- */
-class DocumentController extends AbstractController
+ */class DocumentController extends AbstractController
 {
     /**
-     * @Route("/", name="document_index", methods={"GET"})
+     * @Route("/folders/{id}/documents/", name="document_index", methods={"GET"})
      */
-    public function index(DocumentRepository $documentRepository): Response
+    public function index(Folder $folder,DocumentRepository $documentRepository): Response
     {
-        return $this->render('backend/document/index.html.twig', [
-            'documents' => $documentRepository->findAll(),
-        ]);
+
+        $documents = $documentRepository->findBy(
+            ['folder' => $folder->getId()]
+        );
+        return $this->render('backend/document/index.html.twig', ['documents' => $documents,'folder'=>$folder]);
+
     }
 
     /**

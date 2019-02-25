@@ -19,7 +19,7 @@
                 <td>{{ folder.id }}</td>
                 <td>{{ folder.name }}</td>
                 <td>
-                    <a href="{{ path('folder_show', {'id': folder.id}) }}">show</a>
+                    <a href="{{ path('document_index', {'id': folder.id}) }}">show</a>
                     <a href="{{ path('folder_edit', {'id': folder.id}) }}">edit</a>
                 </td>
             </tr>
@@ -30,5 +30,6 @@
         {% endfor %}
         </tbody>
     </table>
+    
     <a href="{{ path('folder_new' , {'id': travel.id}) }}">Create new</a>
 {% endblock %}
