@@ -1,15 +1,25 @@
 require('../css/map.css');
 
 window.onload = function () {
-	
-    var map = L.map('map').setView([59,13.18359],3);
     
-        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 18,
-            id: 'mapbox.streets',
-            accessToken: 'pk.eyJ1IjoiYWxiZXJ0MjQiLCJhIjoiY2l6cGRkcmp4MDAwbTJ3czNjdHRpd28wOCJ9.RyAFYmq9Wp9yZFEzkmrj7A'
-        }).addTo(map);
-        
+    var map = L.map('map').setView([40.91, -96.63], 4);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    var searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+    var results = L.layerGroup().addTo(map);
+
+    searchControl.on('results', function(data){
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng).bindPopup(" Pays : ").openPopup());
+        }
+    });
+    
+    // création et ajout du LayerGroup
+    lgMarkers = new L.LayerGroup();
+
     map.on('click', function(e) {
         
 		$.ajax({
@@ -40,13 +50,11 @@ window.onload = function () {
                         city = data.address['state'];
                     }
                     
-                    L.marker(e.latlng).addTo(map).bindPopup(
-                        " Pays : "+ country+
-                        " <br> Ville : " + city
-                        ).openPopup();
+                    lgMarkers.clearLayers();
+                    map.addLayer(lgMarkers);
+          
+                    L.marker(e.latlng).addTo(lgMarkers).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup();
 
-                    L.circle(e.latlng, 1).addTo(map);
-                    
                     $( "input[name='itinerary[countryName]']" ).val(country);
                     $( "input[name='itinerary[cityName]']" ).val(city);
                 }
