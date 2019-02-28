@@ -77,9 +77,8 @@ use Symfony\Component\Routing\Annotation\Route;
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('document_index', [
-                'id' => $document->getId(),
-            ]);
+            return $this->redirectToRoute('document_index', ['id' => $document->getFolder()->getId()]);
+
         }
 
         return $this->render('backend/document/edit.html.twig', [
@@ -99,6 +98,7 @@ use Symfony\Component\Routing\Annotation\Route;
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('document_index');
+        return $this->redirectToRoute('document_index', ['id' => $document->getFolder()->getId()]);
+
     }
 }
