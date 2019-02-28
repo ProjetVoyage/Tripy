@@ -11,9 +11,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\DateTime;
+use App\Services\Expense\ExpenseManager;
 
 class ExpenseController extends AbstractController
 {
+
+    /**
+     * @var ExpenseManager
+     */
+    private $expenseManager;
+
+    public function __construct(
+        ExpenseManager $expenseManager
+    )
+    {
+        $this->expenseManager = $expenseManager;
+    }
+
     /**
      * @Route("travels/{id}/expenses/", name="expense_index", methods={"GET"})
      */
@@ -26,7 +40,7 @@ class ExpenseController extends AbstractController
         } else {
             $expenses = $expenseRepository->findBy(['travel' => $travel] , ['date' => 'DESC']);
         }
-
+/*
         $em = $this->getDoctrine()->getRepository(Expense::class);
         $qb = $em->createQueryBuilder('e');
 
@@ -35,9 +49,13 @@ class ExpenseController extends AbstractController
             ->groupBy('e.date')
             ->getQuery()
             ->getResult();
-
+*/
         $total = 0;
+        
+        $em = $this->getDoctrine()->getRepository(Expense::class);
 
+        $dates = $this->expenseManager->getDateExpenses($em);
+                
         foreach ($expenses as $expense) {
             $total += $expense->getAmount();
         }
@@ -84,7 +102,7 @@ class ExpenseController extends AbstractController
      */
     public function show(Expense $expense): Response
     {
-        return $this->render('backend/expense/show.html.twig', ['expense' => $expense ]);
+        return $this->render('backend/expense/show.html.twig', ['expenses' => $expense, 'travel' => $expense->getTravel() ]);
     }
 
     /**

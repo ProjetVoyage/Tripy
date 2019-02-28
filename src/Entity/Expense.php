@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,8 +45,14 @@ class Expense
      */
     private $travel;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Refund", mappedBy="expense")
+     */
+    private $redunds;
+
     public function __construct(){
         $this->setDate(new \DateTime());
+        $this->redunds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +116,37 @@ class Expense
     public function setTravel(?Travel $travel): self
     {
         $this->travel = $travel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Refund[]
+     */
+    public function getRedunds(): Collection
+    {
+        return $this->redunds;
+    }
+
+    public function addRedund(Refund $redund): self
+    {
+        if (!$this->redunds->contains($redund)) {
+            $this->redunds[] = $redund;
+            $redund->setExpense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRedund(Refund $redund): self
+    {
+        if ($this->redunds->contains($redund)) {
+            $this->redunds->removeElement($redund);
+            // set the owning side to null (unless already changed)
+            if ($redund->getExpense() === $this) {
+                $redund->setExpense(null);
+            }
+        }
 
         return $this;
     }
