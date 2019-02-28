@@ -27,11 +27,15 @@
                 <td>{{ refund.traveler.username ? refund.traveler.username  : '' }}</td>
                 
                 {% if (refund.sum == 0) %}
-                    <td></td>
+                    <td>
+                        {{ include('backend/refund/_delete_form.html.twig') }}
+                    </td>
                 {% else %}
                     <td>
                         <a href="{{ path('refund_edit', {'id': refund.id}) }}">Effectuer le remboursement</a>
+                        {{ include('backend/refund/_delete_form.html.twig') }}
                     </td>
+                    
                 {% endif %}
                 
             </tr>

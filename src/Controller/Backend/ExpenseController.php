@@ -4,8 +4,10 @@ namespace App\Controller\Backend;
 
 use App\Entity\Expense;
 use App\Entity\Travel;
+use App\Entity\Refund;
 use App\Form\ExpenseType;
 use App\Repository\ExpenseRepository;
+use App\Repository\TravelerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,7 +67,7 @@ class ExpenseController extends AbstractController
     /**
      * @Route("travels/{id}/expenses/new", name="expense_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Travel $travel): Response
+    public function new(TravelerRepository $travelerRepository, ExpenseRepository $expenseRepository, Request $request, Travel $travel): Response
     {
         $expense = new Expense();
         $expense->setTravel($travel);
@@ -74,9 +76,39 @@ class ExpenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $request->request->get('expense');
+            
+            $amount = ($data['amount'] / (sizeof($data['refundersList']) + 1));
+            
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+                
+            $id_user = $user->getId();
+            
+            $userConnected = $travelerRepository->find($id_user);
+            
+            $expense->setTraveler($userConnected);
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expense);
             $entityManager->flush();
+
+            $expense_id = $expenseRepository->find($expense->getId());
+
+            foreach($data['refundersList'] as $id_refunder)
+            {
+                
+                $refunder = $travelerRepository->find($id_refunder);
+
+                $refund = new Refund();
+                $refund->setSum($amount);
+                $refund->setExpense($expense_id);
+                $refund->setTraveler($refunder);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($refund);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('expense_index', [ 'id' => $travel->getId() ]);
         }
@@ -87,7 +119,7 @@ class ExpenseController extends AbstractController
             'travel' => $travel
         ]);
     }
-
+    
     /**
      * @Route("/expenses/{id}", name="expense_show", methods={"GET"})
      */
