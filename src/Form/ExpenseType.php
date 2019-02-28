@@ -22,11 +22,10 @@ class ExpenseType extends AbstractType
         $travel = new Travel();
         
         $builder
-            ->add('date', DateType::class, [ // J'ai laisser en DateTime pour que le traitement fonctionne
-                                            // Si TexteType, décommenter widget et html5
+            ->add('date', DateType::class, [
                 'widget' => 'single_text',
                 'html5' => false,
-                // 'attr' => ['class' => 'js-datepicker'], // A recommenter, datepicker bug
+                'attr' => ['class' => 'js-datepicker'],
             ])
             ->add('description')
             ->add('amount')
