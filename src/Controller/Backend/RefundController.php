@@ -79,7 +79,6 @@ class RefundController extends AbstractController
     /**
      * @Route("/refund/{id}", name="refund_delete", methods={"DELETE"})
      */
-    /*
     public function delete(Request $request, Refund $refund): Response
     {
         if ($this->isCsrfTokenValid('delete'.$refund->getId(), $request->request->get('_token'))) {
@@ -88,6 +87,6 @@ class RefundController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('refund_index');
-    }*/
+        return $this->redirectToRoute('refund_index', ['id' => $refund->getExpense()->getId()]);
+    }
 }

@@ -43,7 +43,6 @@
                         <td>{{ expense.traveler.username }}</td>
                         <td>
                             <a href="{{ path('refund_index', {'id': expense.id}) }}">Remboursements</a>
-                            <a href="{{ path('expense_edit', {'id': expense.id}) }}">Éditer</a>
                             {{ include('backend/expense/_delete_form.html.twig') }}
                         </td>
                     </tr>

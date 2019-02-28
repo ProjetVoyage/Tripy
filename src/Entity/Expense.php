@@ -50,6 +50,9 @@ class Expense
      */
     private $refunds;
 
+    
+    private $refundersList = [];
+
     public function __construct(){
         $this->setDate(new \DateTime());
         $this->refunds = new ArrayCollection();
@@ -147,6 +150,18 @@ class Expense
                 $refund->setExpense(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRefundersList(): ?array
+    {
+        return $this->refundersList;
+    }
+
+    public function setRefundersList(?array $refundersList): self
+    {
+        $this->refundersList = $refundersList;
 
         return $this;
     }

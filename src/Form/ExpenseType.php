@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Expense;
 use App\Entity\Traveler;
+use App\Entity\Travel;
 use Doctrine\ORM\EntityRepository;
 use App\Transformers\DateTimeTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,18 +19,22 @@ class ExpenseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $travel = new Travel();
+        
         $builder
             ->add('date', DateType::class, [ // J'ai laisser en DateTime pour que le traitement fonctionne
                                             // Si TexteType, décommenter widget et html5
                 'widget' => 'single_text',
                 'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
+                // 'attr' => ['class' => 'js-datepicker'], // A recommenter, datepicker bug
             ])
             ->add('description')
             ->add('amount')
-            ->add('traveler', EntityType::class, [
+            ->add('refundersList', EntityType::class, [
                 'class' => Traveler::class,
-                'choice_label' => 'username'
+                'choice_label' => 'username',
+                // 'choices' => $travel->getTravelers(),
+                'multiple' => true
             ]);
             
         // $builder->get('date')
