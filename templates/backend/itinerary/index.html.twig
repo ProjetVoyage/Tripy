@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Itinerary index{% endblock %}
+{% block title %}Liste d'itinéraires{% endblock %}
 
 {% block body %}
-    <h1>Itinerary index</h1>
+    <h1>Liste d'itinéraires</h1>
 
     <table class="table">
         <thead>
@@ -25,17 +25,17 @@
                 <td>{{ itinerary.countryName ? itinerary.countryName : '' }}</td>
                 <td>{{ itinerary.cityName ? itinerary.cityName : '' }}</td>
                 <td>
-                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">show</a>
-                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">Afficher</a>
+                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">Éditer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Pas d'itinéraires encore programmés ...</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}">Create new</a>
+    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}">Programmer un itinéraire !</a>
 {% endblock %}

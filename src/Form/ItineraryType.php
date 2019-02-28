@@ -14,8 +14,8 @@ class ItineraryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('departureDate', DateTimeType::class,  ['label' => 'Date de Départ : '])
-            ->add('arrivalDate', DateTimeType::class,  ['label' => 'Date d\'Arrivée : '])
+            ->add('departureDate', DateTimeType::class,  ['years' => range(2019, 2025), 'label' => 'Date de Départ : '])
+            ->add('arrivalDate', DateTimeType::class,  ['years' => range(2019, 2025), 'label' => 'Date d\'Arrivée : '])
             ->add('countryName', TextType::class, ['label' => 'Pays : '])
             ->add('cityName', TextType::class, ['label' => 'Ville : '])
             ;
