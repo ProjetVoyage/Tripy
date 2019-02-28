@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Refund{% endblock %}
+
+{% block body %}
+    <h1>Edit Refund</h1>
+
+    {{ include('refund/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('refund_index') }}">back to list</a>
+
+    {{ include('refund/_delete_form.html.twig') }}
+{% endblock %}
