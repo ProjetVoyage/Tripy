@@ -7,6 +7,7 @@ use App\Entity\Traveler;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,8 +20,9 @@ class ExpenseType extends AbstractType
                 'widget' => 'single_text',
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker'],
+                'format' => 'yyyy/MM/dd',
             ])
-            ->add('name')
+            ->add('description')
             ->add('amount')
             ->add('traveler', EntityType::class, [
                 'class' => Traveler::class,

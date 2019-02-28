@@ -29,20 +29,20 @@
                 <tr>
                     <th>Date</th>
                     <th>Description</th>
-                    <th>Amount</th>
-                    <th>User</th>
-                    <th>actions</th>
+                    <th>Dépense</th>
+                    <th>Voyageur</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for expense in expenses %}
                     <tr>
                         <td>{{ expense.date ? expense.date|date('d/m/Y') : '' }}</td>
-                        <td>{{ expense.name }}</td>
-                        <td>{{ expense.amount }} €</td>
-                        <td>{{ expense.traveler.username }}</td>
+                        <td>{{ expense.description ? expense.description : '' }}</td>
+                        <td>{{ expense.amount ? expense.amount : '' }} €</td>
+                        <td>{{ expense.traveler.username ? expense.traveler.username : ''}}</td>
                         <td>
-                            <a href="{{ path('expense_edit', {'id': expense.id}) }}">edit</a>
+                            <a href="{{ path('expense_edit', {'id': expense.id}) }}">Éditer</a>
                             {{ include('backend/expense/_delete_form.html.twig') }}
                         </td>
                     </tr>
