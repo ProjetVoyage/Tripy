@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 use App\Services\Expense\ExpenseManager;
 
@@ -22,7 +23,7 @@ class ExpenseController extends AbstractController
      * @var ExpenseManager
      */
     private $expenseManager;
-    
+
     public function __construct(
         ExpenseManager $expenseManager
     )
@@ -42,13 +43,13 @@ class ExpenseController extends AbstractController
         } else {
             $expenses = $expenseRepository->findBy(['travel' => $travel] , ['date' => 'DESC']);
         }
-        
+
         $total = 0;
-        
+
         $em = $this->getDoctrine()->getRepository(Expense::class);
 
         $dates = $this->expenseManager->getDateExpenses($em);
-                
+
         foreach ($expenses as $expense) {
             $total += $expense->getAmount();
         }

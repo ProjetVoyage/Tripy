@@ -34,12 +34,23 @@ class TravelController extends AbstractController
         $form = $this->createForm(TravelType::class, $travel);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            $date = $request->request->get("travel")["startDate"];
+            $formattedDate = date_create_from_format('d/m/Y', $date);
+
+            $travel->setStartDate($formattedDate);
+
+            $date = $request->request->get("travel")["endDate"];
+            $formattedDate = date_create_from_format('d/m/Y', $date);
+
+            $travel->setEndDate($formattedDate);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($travel);
             $entityManager->flush();
 
             return $this->redirectToRoute('travels_index');
+
         }
 
         return $this->render('backend/travel/new.html.twig', [
@@ -77,7 +88,7 @@ class TravelController extends AbstractController
             'form' => $form->createView(),
         ]);
 
-       // 'form' => $form->createView(),'travelers'=>$travel->getTravelers()
+        // 'form' => $form->createView(),'travelers'=>$travel->getTravelers()
 
     }
 
@@ -95,7 +106,7 @@ class TravelController extends AbstractController
         return $this->redirectToRoute('travels_index');
     }
 
-    
- 
-  
+
+
+
 }

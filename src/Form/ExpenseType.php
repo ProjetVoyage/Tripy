@@ -4,16 +4,15 @@ namespace App\Form;
 
 use App\Entity\Expense;
 use App\Entity\Traveler;
-use App\Entity\Travel;
-use Doctrine\ORM\EntityRepository;
-use App\Transformers\DateTimeTransformer;
+use App\Transformers\DateTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\CallbackTransformer;
 
 class ExpenseType extends AbstractType
 {
@@ -22,10 +21,12 @@ class ExpenseType extends AbstractType
         $travel = new Travel();
         
         $builder
-            ->add('date', DateType::class, [
-                'widget' => 'single_text',
-                'html5' => false,
-                'attr' => ['class' => 'js-datepicker'],
+            ->add('date', TextType::class, [
+                'attr' => [
+                    'class' => 'js-datepicker',
+                    'autocomplete' => 'off',
+                    'validation_groups' => false
+                    ],
             ])
             ->add('description')
             ->add('amount')
@@ -35,9 +36,10 @@ class ExpenseType extends AbstractType
                 // 'choices' => $travel->getTravelers(),
                 'multiple' => true
             ]);
-            
-        // $builder->get('date')
-        //     ->addModelTransformer(new DateTimeTransformer());
+
+        $builder->get('date')
+            ->addModelTransformer(new DateTransformer());
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

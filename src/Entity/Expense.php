@@ -19,7 +19,7 @@ class Expense
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $date;
 
@@ -54,7 +54,6 @@ class Expense
     private $refundersList = [];
 
     public function __construct(){
-        $this->setDate(new \DateTime());
         $this->refunds = new ArrayCollection();
     }
 
