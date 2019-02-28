@@ -4,6 +4,7 @@ namespace App\Controller\Backend;
 
 use App\Entity\Refund;
 use App\Form\RefundType;
+use App\Entity\Expense;
 use App\Repository\RefundRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,19 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class RefundController extends AbstractController
 {
     /**
-     * @Route("/refund", name="refund_index", methods={"GET"})
+     * @Route("expenses/{id}/refund", name="refund_index", methods={"GET"})
      */
-    public function index(RefundRepository $refundRepository): Response
+    public function index(RefundRepository $refundRepository, Expense $expense, Request $request): Response
     {
-        return $this->render('backend/refund/index.html.twig', ['refunds' => $refundRepository->findAll()]);
+        return $this->render('backend/refund/index.html.twig', ['refunds' => $refundRepository->findBy(['expense' => $expense]), 'expense' => $expense]);
     }
-
+    
     /**
-     * @Route("/refund/new", name="refund_new", methods={"GET","POST"})
-     */
+     * @Route("expenses/{id}/refund/new", name="refund_new", methods={"GET","POST"})
+     *//*
     public function new(Request $request): Response
     {
         $refund = new Refund();
+        $refund->
+
         $form = $this->createForm(RefundType::class, $refund);
         $form->handleRequest($request);
 
@@ -43,14 +46,15 @@ class RefundController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    */
 
     /**
      * @Route("/refund/{id}", name="refund_show", methods={"GET"})
-     */
+     *//*
     public function show(Refund $refund): Response
     {
         return $this->render('backend/refund/show.html.twig', ['refund' => $refund]);
-    }
+    }*/
 
     /**
      * @Route("/refund/{id}/edit", name="refund_edit", methods={"GET","POST"})
@@ -63,7 +67,7 @@ class RefundController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('refund_index', ['id' => $refund->getId()]);
+            return $this->redirectToRoute('refund_index', ['id' => $refund->getExpense()->getId()]);
         }
 
         return $this->render('backend/refund/edit.html.twig', [
@@ -75,6 +79,7 @@ class RefundController extends AbstractController
     /**
      * @Route("/refund/{id}", name="refund_delete", methods={"DELETE"})
      */
+    /*
     public function delete(Request $request, Refund $refund): Response
     {
         if ($this->isCsrfTokenValid('delete'.$refund->getId(), $request->request->get('_token'))) {
@@ -84,5 +89,5 @@ class RefundController extends AbstractController
         }
 
         return $this->redirectToRoute('refund_index');
-    }
+    }*/
 }
