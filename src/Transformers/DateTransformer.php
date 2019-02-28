@@ -4,43 +4,44 @@ namespace App\Transformers;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Validator\Constraints\Date;
 
-class DateTimeTransformer implements DataTransformerInterface
+class DateTransformer implements DataTransformerInterface
 {
-    public function transform($datetime)
+    public function transform($date)
     {
-        if (null === $datetime) {
+        if (null === $date) {
             return '';
         }
 
-        if (!is_object($datetime)) {
-            throw new TransformationFailedException('Expected a datetime.');
+        if (!$date instanceof Date) {
+            throw new TransformationFailedException('Expected a date.');
         }
         /*
         $date = \DateTime::createFromFormat('Y/d/m', '2017/01/01');
         print_r($date);
         die();
 
-        $maStr = $datetime->format('d/m/Y'); // date début est le nom de mon input
+        $maStr = $date->format('d/m/Y'); // date début est le nom de mon input
         $zedate = \DateTime::createFromFormat('d/m/Y', $maStr);
 return $zedate;
         print_r($maStr);
         print_r($zedate);
         die();
-        $datetime = new \DateTime();
-        $pp = $datetime->format('d/m/Y');
+        $date = new \DateTime();
+        $pp = $date->format('d/m/Y');
 
         print_r($pp);
-        print_r($datetime);
+        print_r($date);
         
         $date = new \DateTime();
-        $d  = $date->createFromFormat('Y-m-d', $datetime);
+        $d  = $date->createFromFormat('Y-m-d', $date);
         echo $d->format('Y-m-d');
 die();
-        // print_r($datetime);die();*/
-        return $datetime->format('d/m/Y H:i');
+        // print_r($date);die();*/
+        return $date->format('d/m/Y H:i');
         
-        // return $datetime;
+        // return $date;
     }
 
     public function reverseTransform($stringDate)

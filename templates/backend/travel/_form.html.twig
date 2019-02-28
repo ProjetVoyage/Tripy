@@ -1,4 +1,25 @@
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="my-custom-class-for-errors">
+    {{ form_errors(form) }}
+</div>
+
+<div class="row">
+    <div class="form-group col-3">
+        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-3" id="some-custom-id">
+        {{ form_row(form.startDate) }}
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-3" id="some-custom-id">
+        {{ form_row(form.endDate) }}
+    </div>
+</div>
+
+<button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
 {{ form_end(form) }}

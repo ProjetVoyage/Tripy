@@ -9,13 +9,4 @@
 
     <a href="{{ path('expense_index', { 'id': travel.id }) }}">Retour à la liste des dépenses</a>
 
-
-    <script>
-        $(document).ready(function() {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: "dd-mm-yy"
-            });
-        });
-    </script>
 {% endblock %}
