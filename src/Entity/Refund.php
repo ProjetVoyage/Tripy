@@ -22,7 +22,7 @@ class Refund
     private $sum;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Expense", inversedBy="redunds")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Expense", inversedBy="refunds")
      */
     private $expense;
 

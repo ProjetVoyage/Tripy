@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Expense;
 use App\Entity\Traveler;
+use Doctrine\ORM\EntityRepository;
 use App\Transformers\DateTimeTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

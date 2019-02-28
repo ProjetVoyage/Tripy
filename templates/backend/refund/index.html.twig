@@ -1,35 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Refund index{% endblock %}
+{% block title %}Remboursements - {{ expense.description }}{% endblock %}
 
 {% block body %}
-    <h1>Refund index</h1>
-
+    <h1>Remboursements - {{ expense.description }}</h1>
+    
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Sum</th>
-                <th>actions</th>
+                <th>Somme à rembourser</th>
+                <th>Emprunteur</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for refund in refunds %}
+        
             <tr>
-                <td>{{ refund.id }}</td>
-                <td>{{ refund.sum }}</td>
-                <td>
-                    <a href="{{ path('refund_show', {'id': refund.id}) }}">show</a>
-                    <a href="{{ path('refund_edit', {'id': refund.id}) }}">edit</a>
-                </td>
+                
+                {% if (refund.sum == 0) %}
+                    <td>0 €</td>
+                {% else %}
+                    <td>{{ refund.sum ? refund.sum  : '' }} €</td>
+                {% endif %}
+                
+                <td>{{ refund.traveler.username ? refund.traveler.username  : '' }}</td>
+                
+                {% if (refund.sum == 0) %}
+                    <td></td>
+                {% else %}
+                    <td>
+                        <a href="{{ path('refund_edit', {'id': refund.id}) }}">Effectuer le remboursement</a>
+                    </td>
+                {% endif %}
+                
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Pas de remboursements à effectuer ...</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    
+    <a href="{{ path('expense_index', {'id': expense.travel.id}) }}">Retour à la liste des dépenses</a>
 
-    <a href="{{ path('refund_new') }}">Create new</a>
 {% endblock %}

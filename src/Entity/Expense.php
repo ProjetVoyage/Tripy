@@ -48,11 +48,11 @@ class Expense
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Refund", mappedBy="expense")
      */
-    private $redunds;
+    private $refunds;
 
     public function __construct(){
         $this->setDate(new \DateTime());
-        $this->redunds = new ArrayCollection();
+        $this->refunds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,28 +123,28 @@ class Expense
     /**
      * @return Collection|Refund[]
      */
-    public function getRedunds(): Collection
+    public function getRefunds(): Collection
     {
-        return $this->redunds;
+        return $this->refunds;
     }
 
-    public function addRedund(Refund $redund): self
+    public function addRefund(Refund $refund): self
     {
-        if (!$this->redunds->contains($redund)) {
-            $this->redunds[] = $redund;
-            $redund->setExpense($this);
+        if (!$this->refunds->contains($refund)) {
+            $this->refunds[] = $refund;
+            $refund->setExpense($this);
         }
 
         return $this;
     }
 
-    public function removeRedund(Refund $redund): self
+    public function removeRefund(Refund $refund): self
     {
-        if ($this->redunds->contains($redund)) {
-            $this->redunds->removeElement($redund);
+        if ($this->refunds->contains($refund)) {
+            $this->refunds->removeElement($refund);
             // set the owning side to null (unless already changed)
-            if ($redund->getExpense() === $this) {
-                $redund->setExpense(null);
+            if ($refund->getExpense() === $this) {
+                $refund->setExpense(null);
             }
         }
 

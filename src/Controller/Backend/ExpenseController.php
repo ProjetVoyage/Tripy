@@ -20,7 +20,7 @@ class ExpenseController extends AbstractController
      * @var ExpenseManager
      */
     private $expenseManager;
-
+    
     public function __construct(
         ExpenseManager $expenseManager
     )
@@ -40,16 +40,7 @@ class ExpenseController extends AbstractController
         } else {
             $expenses = $expenseRepository->findBy(['travel' => $travel] , ['date' => 'DESC']);
         }
-/*
-        $em = $this->getDoctrine()->getRepository(Expense::class);
-        $qb = $em->createQueryBuilder('e');
-
-        $dates = $qb->select('e.date')
-            ->orderBy('e.date', 'DESC')
-            ->groupBy('e.date')
-            ->getQuery()
-            ->getResult();
-*/
+        
         $total = 0;
         
         $em = $this->getDoctrine()->getRepository(Expense::class);
