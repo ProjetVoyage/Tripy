@@ -47,7 +47,7 @@ use Symfony\Component\Routing\Annotation\Route;
             $entityManager->persist($document);
             $entityManager->flush();
 
-            return $this->redirectToRoute('document_index');
+            return $this->redirectToRoute('document_index', ['id' => $document->getFolder()->getId()]);
         }
 
         return $this->render('backend/document/new.html.twig', [
