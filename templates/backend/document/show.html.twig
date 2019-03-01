@@ -3,6 +3,7 @@
 {% block title %}Document{% endblock %}
 
 {% block body %}
+
     <h1>Document</h1>
 
     <table class="table">
@@ -27,4 +28,10 @@
     <a href="{{ path('document_edit', {'id': document.id}) }}">edit</a>
 
     {{ include('backend/document/_delete_form.html.twig') }}
+
+    <div class="container">
+        <div class="row">
+            <embed src="{{ asset(documentSrc) }}" width=800 height=500 type='application/pdf'/>
+        </div>
+    </div>
 {% endblock %}
