@@ -39,7 +39,7 @@ class Travel
     private $luggage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Itinerary", mappedBy="travel_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Itinerary", mappedBy="travel")
      */
     private $itineraries;
 

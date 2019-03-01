@@ -1,46 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Travel{% endblock %}
+{% block title %}{{ travel.name }}{% endblock %}
 
 {% block body %}
-    <h1>Travel</h1>
+    <div class="row">
+        <div class="col-12 mb-2 d-flex align-items-center justify-content-between">
+            <h1>Voyage au {{ travel.name }}</h1> <span class="d-flex"><a href="{{ path('travels_edit', {'id': travel.id}) }}" class="btn btn-primary mr-1"><i class="fas fa-pen"></i></a>{{ include('backend/travel/_delete_form.html.twig') }}</span>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ travel.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ travel.name }}</td>
+        <div class="col-12">
+            <p> Voyageurs :
 
-            </tr>
-             <tr>
-                <th>Traveler</th>    
-                <td>
-                    {% for traveler in travelers %}
-                  
+                {% for traveler in travelers %}
                     <a href="{{ path('traveler_show', {'id': traveler.id}) }}">  {{ traveler.username }}</a>
+                    {% if not loop.last %}
+                        ,
+                    {% endif %}
+                {% endfor %}</p>
+        </div>
 
-                    {% endfor %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="col-12">
+            <p>Total des dépenses du voyage : <b>{{ total }} €</b></p>
+            <a href="{{ path('expense_index', {'id': travel.id}) }}" class="btn btn-primary">Dépenses</a>
+        </div>
 
-    <div>
-    <a href="{{ path('expense_index', {'id': travel.id}) }}">gérer dépenses</a>
+        <div class="col-12 mt-3">
+            <p>Nombre d'itinéraires pour ce voyage : <b>{{ itinerariesNumber }}</b></p>
+            <a href="{{ path('itinerary_index', {'id': travel.id}) }}" class="btn btn-primary">Itinéraires</a>
+        </div>
+
     </div>
-    <div>
-        <a href="{{ path('itinerary_index', {'id': travel.id}) }}">gérer itinéraires</a>
-    </div>
-    <div>
-        <a href="{{ path('folder_index', {'id': travel.id}) }}">gérer les documents</a>
-    </div>
-    <a href="{{ path('travels_index') }}">back to list</a>
-
-    <a href="{{ path('travels_edit', {'id': travel.id}) }}">edit</a>
-
-    {{ include('backend/travel/_delete_form.html.twig') }}
 {% endblock %}

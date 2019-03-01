@@ -27,7 +27,7 @@ class Traveler implements UserInterface
     private $roles = [];
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="traveler_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="traveler")
      */
     private $luggage;
 

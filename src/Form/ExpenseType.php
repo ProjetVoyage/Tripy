@@ -18,7 +18,6 @@ class ExpenseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $travel = new Travel();
         
         $builder
             ->add('date', TextType::class, [

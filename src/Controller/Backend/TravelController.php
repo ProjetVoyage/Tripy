@@ -64,7 +64,17 @@ class TravelController extends AbstractController
      */
     public function show(Travel $travel): Response
     {
-        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers()]);
+        $expenses = $travel->getExpenses();
+        $totalExpenses = 0;
+
+        foreach ($expenses as $expense) {
+            $totalExpenses += $expense->getAmount();
+        }
+
+
+        $itinerariesNumber = $travel->getItineraries()->count();
+
+        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers(), 'total' => $totalExpenses, 'itinerariesNumber' => $itinerariesNumber]);
     }
 
 
