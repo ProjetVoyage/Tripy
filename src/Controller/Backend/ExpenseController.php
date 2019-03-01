@@ -4,16 +4,33 @@ namespace App\Controller\Backend;
 
 use App\Entity\Expense;
 use App\Entity\Travel;
+use App\Entity\Refund;
 use App\Form\ExpenseType;
 use App\Repository\ExpenseRepository;
+use App\Repository\TravelerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
+use App\Services\Expense\ExpenseManager;
 
 class ExpenseController extends AbstractController
 {
+
+    /**
+     * @var ExpenseManager
+     */
+    private $expenseManager;
+
+    public function __construct(
+        ExpenseManager $expenseManager
+    )
+    {
+        $this->expenseManager = $expenseManager;
+    }
+
     /**
      * @Route("travels/{id}/expenses/", name="expense_index", methods={"GET"})
      */
@@ -27,16 +44,11 @@ class ExpenseController extends AbstractController
             $expenses = $expenseRepository->findBy(['travel' => $travel] , ['date' => 'DESC']);
         }
 
-        $em = $this->getDoctrine()->getRepository(Expense::class);
-        $qb = $em->createQueryBuilder('e');
-
-        $dates = $qb->select('e.date')
-            ->orderBy('e.date', 'DESC')
-            ->groupBy('e.date')
-            ->getQuery()
-            ->getResult();
-
         $total = 0;
+
+        $em = $this->getDoctrine()->getRepository(Expense::class);
+
+        $dates = $this->expenseManager->getDateExpenses($em);
 
         foreach ($expenses as $expense) {
             $total += $expense->getAmount();
@@ -56,7 +68,7 @@ class ExpenseController extends AbstractController
     /**
      * @Route("travels/{id}/expenses/new", name="expense_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Travel $travel): Response
+    public function new(TravelerRepository $travelerRepository, ExpenseRepository $expenseRepository, Request $request, Travel $travel): Response
     {
         $expense = new Expense();
         $expense->setTravel($travel);
@@ -65,9 +77,39 @@ class ExpenseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $request->request->get('expense');
+            
+            $amount = ($data['amount'] / (sizeof($data['refundersList']) + 1));
+            
+            $user = $this->get('security.token_storage')->getToken()->getUser();
+                
+            $id_user = $user->getId();
+            
+            $userConnected = $travelerRepository->find($id_user);
+            
+            $expense->setTraveler($userConnected);
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($expense);
             $entityManager->flush();
+
+            $expense_id = $expenseRepository->find($expense->getId());
+
+            foreach($data['refundersList'] as $id_refunder)
+            {
+                
+                $refunder = $travelerRepository->find($id_refunder);
+
+                $refund = new Refund();
+                $refund->setSum($amount);
+                $refund->setExpense($expense_id);
+                $refund->setTraveler($refunder);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($refund);
+                $entityManager->flush();
+            }
 
             return $this->redirectToRoute('expense_index', [ 'id' => $travel->getId() ]);
         }
@@ -78,13 +120,13 @@ class ExpenseController extends AbstractController
             'travel' => $travel
         ]);
     }
-
+    
     /**
      * @Route("/expenses/{id}", name="expense_show", methods={"GET"})
      */
     public function show(Expense $expense): Response
     {
-        return $this->render('backend/expense/show.html.twig', ['expense' => $expense ]);
+        return $this->render('backend/expense/show.html.twig', ['expenses' => $expense, 'travel' => $expense->getTravel() ]);
     }
 
     /**

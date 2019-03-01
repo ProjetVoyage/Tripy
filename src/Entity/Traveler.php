@@ -27,7 +27,7 @@ class Traveler implements UserInterface
     private $roles = [];
     
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="traveler_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="traveler")
      */
     private $luggage;
 
@@ -64,11 +64,17 @@ class Traveler implements UserInterface
     private $image;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Refund", mappedBy="traveler")
+     */
+    private $refunds;
+
     public function __construct()
     {
         $this->luggage = new ArrayCollection();
         $this->travels = new ArrayCollection();
         $this->expenses = new ArrayCollection();
+        $this->refunds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +264,37 @@ class Traveler implements UserInterface
     public function setImage($image)
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Refund[]
+     */
+    public function getRefunds(): Collection
+    {
+        return $this->refunds;
+    }
+
+    public function addRefund(Refund $refund): self
+    {
+        if (!$this->refunds->contains($refund)) {
+            $this->refunds[] = $refund;
+            $refund->setTraveler($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRefund(Refund $refund): self
+    {
+        if ($this->refunds->contains($refund)) {
+            $this->refunds->removeElement($refund);
+            // set the owning side to null (unless already changed)
+            if ($refund->getTraveler() === $this) {
+                $refund->setTraveler(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +19,7 @@ class Expense
     private $id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $date;
 
@@ -43,8 +45,16 @@ class Expense
      */
     private $travel;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Refund", mappedBy="expense")
+     */
+    private $refunds;
+
+    
+    private $refundersList = [];
+
     public function __construct(){
-        $this->setDate(new \DateTime());
+        $this->refunds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +118,49 @@ class Expense
     public function setTravel(?Travel $travel): self
     {
         $this->travel = $travel;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Refund[]
+     */
+    public function getRefunds(): Collection
+    {
+        return $this->refunds;
+    }
+
+    public function addRefund(Refund $refund): self
+    {
+        if (!$this->refunds->contains($refund)) {
+            $this->refunds[] = $refund;
+            $refund->setExpense($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRefund(Refund $refund): self
+    {
+        if ($this->refunds->contains($refund)) {
+            $this->refunds->removeElement($refund);
+            // set the owning side to null (unless already changed)
+            if ($refund->getExpense() === $this) {
+                $refund->setExpense(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRefundersList(): ?array
+    {
+        return $this->refundersList;
+    }
+
+    public function setRefundersList(?array $refundersList): self
+    {
+        $this->refundersList = $refundersList;
 
         return $this;
     }

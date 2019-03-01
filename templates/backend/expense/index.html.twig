@@ -3,19 +3,8 @@
 {% block title %}Dépenses{% endblock %}
 
 {% block body %}
-    <div class="d-flex m-2 h-100">
-        <ul class="nav grad-back col-2 d-inline-block h-100">
-            <h1>Dépenses</h1>
-            <a class="mb-2 d-flex" href="{{ path('expense_index', {'id': travel.id})}}">Voir toutes les dépenses</a>
-            <h5>Dépenses du</h5>
-            {% for date in dates %}
-                <li>
-                    <a class="mb-5 w-100" href="{{ path('expense_index', {'id': travel.id ,'date': date['date']|date('Y-m-d')})}}">{{ date["date"]|date('d/m/Y') }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-
-        <div class="col-10">
+    <div class="row">
+        <div class="col-12">
             <div class="inline">
                 {% if (date is defined) %}
                     <h1 class="float-left">Dépenses du {{ date|date('d/m/Y') }}</h1>
@@ -24,37 +13,42 @@
                 {% endif %}
             <h1 class="float-right">{{ total }} €</h1>
             </div>
+        </div>
+
+        <div class="col-12 mt-3 mb-3">
+            <a href="{{ path('expense_new', { 'id': travel.id }) }}" class="btn btn-primary">Créer une dépense</a>
+        </div>
+
+        <div class="col-12">
             <table class="table">
                 <thead>
                 <tr>
                     <th>Date</th>
                     <th>Description</th>
-                    <th>Amount</th>
-                    <th>User</th>
-                    <th>actions</th>
+                    <th>Somme</th>
+                    <th>Voyageurs</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for expense in expenses %}
                     <tr>
-                        <td>{{ expense.date ? expense.date|date('d/m/Y') : '' }}</td>
+                        <td><a class="mb-5 w-100" href="{{ path('expense_index', {'id': travel.id ,'date': expense.date|date('Y-m-d')})}}">{{ expense.date|date('d/m/Y') }}</a></td>
                         <td>{{ expense.description }}</td>
                         <td>{{ expense.amount }} €</td>
                         <td>{{ expense.traveler.username }}</td>
                         <td>
-                            <a href="{{ path('expense_edit', {'id': expense.id}) }}">edit</a>
+                            <a href="{{ path('refund_index', {'id': expense.id}) }}">Remboursements</a>
                             {{ include('backend/expense/_delete_form.html.twig') }}
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5">no records found</td>
+                        <td colspan="5">Pas de dépenses crées ...</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-
-            <a href="{{ path('expense_new', { 'id': travel.id }) }}">Create new</a>
         </div>
     </div>
 {% endblock %}

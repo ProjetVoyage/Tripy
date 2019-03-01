@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Remboursement{% endblock %}
+
+{% block body %}
+    <h1>Remboursement</h1>
+
+    {{ include('backend/refund/_form.html.twig', {'button_label': 'Rembourser !'}) }}
+
+    <a href="{{ path('refund_index', { 'id': refund.expense.id }) }}">Retourner à la liste des remboursements</a>
+{% endblock %}

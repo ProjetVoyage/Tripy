@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Refund{% endblock %}
+
+{% block body %}
+    <h1>Refund</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ refund.id }}</td>
+            </tr>
+            <tr>
+                <th>Sum</th>
+                <td>{{ refund.sum }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('refund_index') }}">back to list</a>
+
+    <a href="{{ path('refund_edit', {'id': refund.id}) }}">edit</a>
+
+    {{ include('refund/_delete_form.html.twig') }}
+{% endblock %}
