@@ -58,11 +58,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
     /**
      * @Route("/{id}", name="document_show", methods={"GET"})
+     * @param Document $document
+     * @return Response
      */
     public function show(Document $document): Response
     {
         return $this->render('backend/document/show.html.twig', [
             'document' => $document,
+            'documentSrc' => 'uploads/document/' . $document->getUrl()
         ]);
     }
 
