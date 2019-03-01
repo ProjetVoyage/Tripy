@@ -30,7 +30,7 @@ class Folder
     private $travel;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="folder_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Document", mappedBy="folder")
      */
     private $documents;
 

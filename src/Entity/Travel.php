@@ -24,17 +24,17 @@ class Travel
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TaskList", mappedBy="travel_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\TaskList", mappedBy="travel")
      */
     private $taskLists;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Folder", mappedBy="travel_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Folder", mappedBy="travel")
      */
     private $folders;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="travel_id")
+     * @ORM\OneToMany(targetEntity="App\Entity\Luggage", mappedBy="travel")
      */
     private $luggage;
 

@@ -21,6 +21,11 @@ body {
     right: 10px;
 }
 
+.profile-picture {
+    width: 200px;
+    height: 200px;
+}
+
 .bg-black {
     background-color: #4F4F4F;
 }

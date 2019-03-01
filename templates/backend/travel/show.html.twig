@@ -29,5 +29,10 @@
             <a href="{{ path('itinerary_index', {'id': travel.id}) }}" class="btn btn-primary">Itinéraires</a>
         </div>
 
+        <div class="col-12 mt-3">
+            <p>Nombre de documents pour ce voyage : <b>{{ documentsNumber }}</b></p>
+            <a href="{{ path('folder_index', {'id': travel.id}) }}" class="btn btn-primary">Documents</a>
+        </div>
+
     </div>
 {% endblock %}

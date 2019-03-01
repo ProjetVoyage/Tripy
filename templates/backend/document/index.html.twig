@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ document.id }}</td>
                 <td>{{ document.name }}</td>
-                <td>{{ document.url }}</td>
+                <td><a href="{{ asset('uploads/document/' ~ document.url) }}" target="_blank">{{ document.url }}</a></td>
                 <td>
                     <a href="{{ path('document_show', {'id': document.id}) }}">show</a>
                     <a href="{{ path('document_edit', {'id': document.id}) }}">edit</a>

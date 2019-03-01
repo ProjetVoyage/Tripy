@@ -71,10 +71,15 @@ class TravelController extends AbstractController
             $totalExpenses += $expense->getAmount();
         }
 
-
         $itinerariesNumber = $travel->getItineraries()->count();
+        $folders = $travel->getFolders();
+        $documentsNumber = 0;
 
-        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers(), 'total' => $totalExpenses, 'itinerariesNumber' => $itinerariesNumber]);
+        foreach ($folders as $folder) {
+            $documentsNumber += $folder->getDocuments()->count();
+        }
+
+        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers(), 'total' => $totalExpenses, 'itinerariesNumber' => $itinerariesNumber, 'documentsNumber' => $documentsNumber]);
     }
 
 
