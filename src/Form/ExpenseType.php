@@ -21,10 +21,10 @@ class ExpenseType extends AbstractType
         
         $builder
             ->add('date', TextType::class, [
+                'label' => 'Date',
                 'attr' => [
                     'class' => 'js-datepicker',
                     'autocomplete' => 'off',
-                    'validation_groups' => false
                     ],
             ])
             ->add('description')

@@ -3,8 +3,11 @@
 {% block title %}Itinerary index{% endblock %}
 
 {% block body %}
-    <h1>Itinerary index</h1>
-
+    <div class="row">
+        <div class="col-12 mb-2 d-flex align-items-center justify-content-between">
+            <h1 class="float-left">Mes itinéraires</h1>   <a href="{{ path('itinerary_new', {'id': travel.id}) }}" class="btn btn-primary">Nouvel itinéraire</a>
+        </div>
+        <div class="col-12">
     <table class="table">
         <thead>
             <tr>
@@ -20,13 +23,15 @@
         {% for itinerary in itineraries %}
             <tr>
                 <!-- <td>{{ itinerary.id }}</td> -->
-                <td>{{ itinerary.departureDate ? itinerary.departureDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ itinerary.departureDate ? itinerary.departureDate|date('d/m/Y') : '' }}</td>
+                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('d/m/Y') : '' }}</td>
                 <td>{{ itinerary.countryName ? itinerary.countryName : '' }}</td>
                 <td>{{ itinerary.cityName ? itinerary.cityName : '' }}</td>
                 <td>
-                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">show</a>
-                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">edit</a>
+                    <div class="d-flex">
+                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}" class="btn btn-primary mr-2"><i class="fas fa-eye"></i></a>
+                    {{ include('backend/itinerary/_delete_form.html.twig') }}
+                    </div>
                 </td>
             </tr>
         {% else %}
@@ -36,6 +41,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}">Create new</a>
+        </div>
+    </div>
 {% endblock %}

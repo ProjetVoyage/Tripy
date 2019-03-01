@@ -23,7 +23,6 @@ class TravelType extends AbstractType
                 'attr' => [
                     'class' => 'js-datepicker form-control',
                     'autocomplete' => 'off',
-                    'default'
                 ],
             ])
             ->add('endDate', TextType::class, [
@@ -31,7 +30,6 @@ class TravelType extends AbstractType
                 'attr' => [
                     'class' => 'js-datepicker form-control',
                     'autocomplete' => 'off',
-                    'default'
                 ],
             ]);
 
