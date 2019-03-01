@@ -58,6 +58,12 @@ class Traveler implements UserInterface
      */
     private $expenses;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+
     public function __construct()
     {
         $this->luggage = new ArrayCollection();
@@ -239,6 +245,19 @@ class Traveler implements UserInterface
                 $expense->setTraveler(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }

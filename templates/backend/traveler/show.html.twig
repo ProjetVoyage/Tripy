@@ -11,6 +11,13 @@
                 <th>Id</th>
                 <td>{{ traveler.id }}</td>
             </tr>
+             <tr>
+                <th>Photo</th>
+                 <td><img src="..\..\..\public\uploads\profil\d3d7da31b80edeafac19f92efd32650c.jpeg" alt="{{ traveler.image }}" /></td>
+
+
+
+            </tr>
             <tr>
                 <th>Roles</th>
                 <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>

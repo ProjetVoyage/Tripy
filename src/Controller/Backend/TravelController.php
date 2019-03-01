@@ -67,8 +67,9 @@ class TravelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($travel);
+            $entityManager->flush();
             return $this->redirectToRoute('travels_index', ['id' => $travel->getId()]);
         }
 
