@@ -59,6 +59,12 @@ class Traveler implements UserInterface
     private $expenses;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Refund", mappedBy="traveler")
      */
     private $refunds;
@@ -245,6 +251,19 @@ class Traveler implements UserInterface
                 $expense->setTraveler(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }

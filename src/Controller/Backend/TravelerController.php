@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+
 /**
  * @Route("/travelers")
  */
@@ -25,9 +26,6 @@ class TravelerController extends AbstractController
         return $this->render('backend/traveler/index.html.twig', ['travelers' => $travelerRepository->findAll()]);
     }
 
-
- 
-
     /**
      * @Route("/new", name="traveler_new", methods={"GET","POST"})
      * @param Request $request
@@ -38,15 +36,20 @@ class TravelerController extends AbstractController
     {
         $traveler = new Traveler();
         $form = $this->createForm(TravelerType::class, $traveler);
-
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($traveler, $traveler->getPassword());
             $traveler->setPassword($password);
             $traveler->setRoles(['ROLE_USER']);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($traveler);
-            $em->flush();
+            $file=$traveler->getImage();
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('upload_directory'),$fileName);
+            $traveler->setImage($fileName);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($traveler);
+            $entityManager->flush();
 
             return $this->redirectToRoute('traveler_index');
         }
@@ -54,7 +57,7 @@ class TravelerController extends AbstractController
         return $this->render('backend/traveler/new.html.twig', [
             'traveler' => $traveler,
             'form' => $form->createView(),
-        ]);
+         ]);
     }
 
     /**
@@ -73,13 +76,24 @@ class TravelerController extends AbstractController
      */
     public function edit(Request $request, Traveler $traveler, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+
+        
         $form = $this->createForm(TravelerType::class, $traveler);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($traveler, $traveler->getPassword());
             $traveler->setPassword($password);
-            $this->getDoctrine()->getManager()->flush();
+            $traveler->setRoles(['ROLE_USER']);
+            $file=$traveler->getImage();
+            $fileName= md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('upload_directory'),$fileName);
+            $traveler->setImage($fileName);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($traveler);
+            $entityManager->flush();
+
 
             return $this->redirectToRoute('traveler_index', ['id' => $traveler->getId(), ]);
         }
@@ -96,6 +110,7 @@ class TravelerController extends AbstractController
     public function delete(Request $request, Traveler $traveler): Response
     {
         if ($this->isCsrfTokenValid('delete'.$traveler->getId(), $request->request->get('_token'))) {
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($traveler);
             $entityManager->flush();
