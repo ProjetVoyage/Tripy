@@ -61,6 +61,46 @@ window.onload = function () {
         }
     });
     
+    var card = '<div class="card p-0" id="uniqueAddCard" style="padding-bottom: 20px !important;">';
+    card += ' <div class="card-body pb-0">';
+    card += ' <form name="itinerary" method="get" >';
+
+    card += '<div id="itinerary">';
+
+    card += ' <div style="display: flex;">';
+    card += '   <div>';
+    card += '       <label for="itinerary_departureDate" class="required">Date de départ</label>';
+    card += '       <input type="text" id="itinerary_departureDate" name="itinerary[departureDate]" style="width:150px; margin-right: 50px;" required="required" class="js-datepicker form-control" autocomplete="off">';
+    card += '    </div>';
+
+    card += '    <div>';
+    card += '        <label for="itinerary_arrivalDate" class="required">Date d\'arrivé</label>';
+    card += '       <input type="text" id="itinerary_arrivalDate" name="itinerary[arrivalDate]" style="width:150px;" required="required" class="js-datepicker form-control" autocomplete="off">';
+    card += '    </div>';
+    card += '</div>';
+
+    card += ' <div style="display: flex;">';
+    card += '    <div>';
+    card += '       <label for="itinerary_countryName" class="required">Pays : </label>';
+    card += '        <input type="text" id="itinerary_countryName" name="itinerary[countryName]" style="width:250px; margin-right: 25px;" required="required" class="form-control">';
+    card += '   </div>';
+
+    card += '   <div>';
+    card += '       <label for="itinerary_cityName" class="required">Ville : </label>';
+    card += '       <input type="text" id="itinerary_cityName" name="itinerary[cityName]" style="width:250px;" required="required" class="form-control">';
+    card += '   </div>';
+    card += '</div>';
+
+    card += '<input type="hidden" id="itinerary__token" name="itinerary[_token]" value="IMpV05WN3Z63k45rC3q02N2HVa0i-Pgf8sBO0MQFqfA">';
+
+    card += '   </div>';
+
+    card += '   <button class="btn">Sauvegarder</button>';
+    card += ' </form>';
+    card += '</div>';
+    card += '</div>';
+    
+
     map.on('click', function(e) {
         groupMarkerSearch.clearLayers();
         
@@ -96,9 +136,19 @@ window.onload = function () {
                     map.addLayer(lgMarkers);
           
                     L.marker(e.latlng).addTo(lgMarkers).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup();
-
+                    
+                    if( $( "#uniqueAddCard" ).attr("class") == undefined ){
+                        $( "#bloc_global" ).append(card);
+                        $('.js-datepicker').datepicker({
+                            format: "dd/mm/yyyy",
+                            autoclose: true,
+                            orientation: "bottom",
+                        });
+                    }
+                    
                     $( "input[name='itinerary[countryName]']" ).val(country);
                     $( "input[name='itinerary[cityName]']" ).val(city);
+                    
                 }
 		    }
 		});
