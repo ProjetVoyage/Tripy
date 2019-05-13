@@ -3,11 +3,13 @@ body {
     padding:0;
 }
 
+#div_map {
+    display: flex;
+    justify-content: center;
+}
+
 #map {
     position: absolute;
-    height: 550px;
-    width: 550px;
-    top: 0;
-    margin-left: 400px;
-    margin-top: 110px;
+    height: 300px;
+    width: 1000px;
 }

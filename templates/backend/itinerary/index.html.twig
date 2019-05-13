@@ -1,41 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste d'itinéraires{% endblock %}
+{% block title %}Mes itinéraires{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('map') }}
+    {{ encore_entry_link_tags('itinerary') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Liste d'itinéraires</h1>
+    <h1>Mes itinéraires - {{ travel.name }}</h1>
+    
+    <div id="div_map">
+        <div id="map"></div>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <!-- <th>Id</th> -->
-                <th> Date de départ </th>
-                <th> Date de retour </th>
-                <th> Pays </th>
-                <th> Ville </th>
-                <th> Actions </th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for itinerary in itineraries %}
-            <tr>
-                <!-- <td>{{ itinerary.id }}</td> -->
-                <td>{{ itinerary.departureDate ? itinerary.departureDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ itinerary.countryName ? itinerary.countryName : '' }}</td>
-                <td>{{ itinerary.cityName ? itinerary.cityName : '' }}</td>
-                <td>
-                    <a href="{{ path('itinerary_show', {'id': itinerary.id}) }}">Afficher</a>
-                    <a href="{{ path('itinerary_edit', {'id': itinerary.id}) }}">Éditer</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Pas d'itinéraires encore programmés ...</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div id="bloc_global">
+    {% set myVal = 0 %}
+    {% for itinerary in itineraries %}
+    
+        <div class="card p-0">
+            <div class="card-image">
+                <div class="actions-travel position-absolute d-flex flex-column">
+                    <a href="{{ path('travels_show', {'id': travel.id}) }}" class="btn btn-primary"><i class="far fa-edit"></i></a>
+                    <form class="mt-1" method="post" action="{{ path('itinerary_delete', {'id': itinerary.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet itinéraire ?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ itinerary.id) }}">
+                        <button class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></button>
+                    </form>
 
-    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}">Programmer un itinéraire !</a>
+                </div>
+                <img class="card-img-top h-auto" src="{{ asset('build/images/japan_cover.jpg') }}" alt="Card image cap">
+
+            </div>
+            <div class="card-body pb-0">
+                <h3>{{ itinerary.cityName ? itinerary.cityName : '' }}, {{ itinerary.countryName ? itinerary.countryName : '' }}</h3>
+                <p class="text-primary">Du <b>{{ itinerary.departureDate ? itinerary.departureDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b> au <b>{{ itinerary.arrivalDate ? itinerary.arrivalDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b></p>
+            </div>
+        </div>
+        
+    {% else %}
+        <tr>
+            <td colspan="4">Pas d'itinéraires encore programmés ...</td>
+        </tr>
+    {% endfor %}
+    </div>
+
+    <a href="{{ path('itinerary_new' , {'id': travel.id}) }}" class="btn btn-primary">Programmer un itinéraire <i class="fas fa-map-marker-alt"></i></a>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('map') }}
 {% endblock %}

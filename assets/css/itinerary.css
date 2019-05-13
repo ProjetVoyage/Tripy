@@ -1,0 +1,20 @@
+.card{
+    width: 600px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+#bloc_global {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-flow: row wrap;
+    align-content: flex-end;
+    margin-top: 320px;
+}
+
+.bloc_itinerary {
+    height: 250px;
+    width: 250px;
+}

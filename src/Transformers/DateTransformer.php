@@ -5,6 +5,7 @@ namespace App\Transformers;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class DateTransformer implements DataTransformerInterface
 {
@@ -13,12 +14,14 @@ class DateTransformer implements DataTransformerInterface
         if (null === $date) {
             return '';
         }
+        
+        // if (!$date instanceof Date) {
+        //     throw new TransformationFailedException('Expected a date.');
+        // }else if(!$date instanceof DateTime){
+        //     throw new TransformationFailedException('Expected a date.');
+        // }
 
-        if (!$date instanceof Date) {
-            throw new TransformationFailedException('Expected a date.');
-        }
-
-        return $date->format('d/m/Y H:i');
+        return $date->format('d/m/Y');
     }
 
     public function reverseTransform($stringDate)
