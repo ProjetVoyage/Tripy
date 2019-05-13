@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Itinerary{% endblock %}
+{% block title %}{{ travel.name ? travel.name : '' }}{% endblock %}
 
 {% block body %}
-    <h1>Itinerary</h1>
+    <h1>{{ travel.name ? travel.name : '' }} - {{ itinerary.countryName ? itinerary.countryName : '' }}, {{ itinerary.cityName ? itinerary.cityName : '' }}</h1>
 
     <table class="table">
         <tbody>
@@ -32,9 +32,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('itinerary_index' , {'id': travel.id} ) }}">back to list</a>
-
-    <a href="{{ path('itinerary_edit', {'id': itinerary.id} ) }}">edit</a>
+    <a href="{{ path('itinerary_index' , {'id': travel.id} ) }}">Retour à la liste</a>
+    <br>
+    <a href="{{ path('itinerary_edit', {'id': itinerary.id} ) }}">Éditer</a>
     
     {{ include('backend/itinerary/_delete_form.html.twig') }}
 {% endblock %}

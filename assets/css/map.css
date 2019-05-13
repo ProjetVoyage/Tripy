@@ -1,5 +1,13 @@
-#map { 
+body {
+    margin:0;
+    padding:0;
+}
+
+#map {
+    position: absolute;
     height: 550px;
     width: 550px;
-    margin-left: 200px;
+    top: 0;
+    margin-left: 400px;
+    margin-top: 110px;
 }

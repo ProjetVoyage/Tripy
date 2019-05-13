@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Controller\Backend;
-
 use App\Entity\Itinerary;
 use App\Entity\Travel;
 use App\Form\ItineraryType;
@@ -11,9 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
-
-
 class ItineraryController extends AbstractController
 {
     /**
@@ -24,10 +19,8 @@ class ItineraryController extends AbstractController
         $itineraries = $itineraryRepository->findBy(
             ['travel' => $travel->getId()]
         );
-
         return $this->render('backend/itinerary/index.html.twig', ['itineraries' => $itineraries, 'travel' => $travel]);
     }
-
     /**
      * @Route("/travels/{id}/itineraries/new", name="itinerary_new", methods={"GET","POST"})
      */
@@ -37,7 +30,6 @@ class ItineraryController extends AbstractController
         $itinerary->setTravel($travel);
         $form = $this->createForm(ItineraryType::class, $itinerary);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($itinerary);
@@ -45,14 +37,12 @@ class ItineraryController extends AbstractController
             
             return $this->redirectToRoute('itinerary_index', ['id' => $travel->getId()]);
         }
-
         return $this->render('backend/itinerary/new.html.twig', [
             'itinerary' => $itinerary,
             'form' => $form->createView(),
             'travel' => $travel
         ]);
     }
-
     /**
      * @Route("/itineraries/{id}", name="itinerary_show", methods={"GET"})
      */
@@ -60,7 +50,6 @@ class ItineraryController extends AbstractController
     {
         return $this->render('backend/itinerary/show.html.twig', ['itinerary' => $itinerary, 'travel' => $itinerary->getTravel()]);
     }
-
     /**
      * @Route("/itineraries/{id}/edit", name="itinerary_edit", methods={"GET","POST"})
      * 
@@ -72,17 +61,14 @@ class ItineraryController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravel()]);
         }
-
         return $this->render('backend/itinerary/edit.html.twig', [
             'itinerary' => $itinerary,
             'form' => $form->createView(),
             'travel' => $itinerary->getTravel()
         ]);
     }
-
     /**
      * @Route("/itineraries/{id}", name="itinerary_delete", methods={"DELETE"})
      */
@@ -94,7 +80,6 @@ class ItineraryController extends AbstractController
             $entityManager->remove($itinerary);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('itinerary_index', ['id' => $itinerary->getTravel()->getId()]);
     }
 }
