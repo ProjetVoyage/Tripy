@@ -7,7 +7,7 @@
  */
 
 namespace App\Services\User\Manager;
-
+use App\Entity\Travel;
 use App\Entity\Traveler;
 use App\Repository\TravelerRepository;
 use App\Services\Mailer;
@@ -57,6 +57,27 @@ class UserManager
                 ->templating
                 ->render('email/welcome.html.twig', [
                     'username' => $traveler->getUsername()
+                ])
+        );
+    }
+
+
+    
+    /**
+     * @param Traveler $traveler
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function sendInvitationEmail(Traveler $traveler,Travel $travel)
+    {
+        $this->mailer->buildAndSendMail(
+            'Vos amis vous attendent ! ',
+            $traveler->getEmail(),
+            $this
+                ->templating
+                ->render('email/invitation.html.twig', [
+                    'username' => $traveler->getUsername(),'travel'=> $travel
                 ])
         );
     }

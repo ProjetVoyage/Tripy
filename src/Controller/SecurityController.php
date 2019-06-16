@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use TravelController;
 
 /**
  * Class SecurityController
@@ -44,6 +44,21 @@ class SecurityController extends AbstractController
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
+
+     /**
+     * @Route("/mail", name="mail")
+     * @param AuthenticationUtils $helper
+     * @return Response
+     */
+    public function mailSend(AuthenticationUtils $helper): Response
+    {
+        echo "hello";
+        
+        return $this->redirectToRoute('app_security_login');
+
+
+    }
+
 
     /**
      * @Route("/register", name="registration")
