@@ -49,6 +49,16 @@ class Itinerary
      */
     private $planning;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $longitude;
+
     public function __construct()
     {
         $this->planning = new ArrayCollection();
@@ -59,24 +69,24 @@ class Itinerary
         return $this->id;
     }
 
-    public function getArrivalDate(): ?\DateTimeInterface
+    public function getArrivalDate(): ?\DateTime
     {
         return $this->arrivalDate;
     }
 
-    public function setArrivalDate(?\DateTimeInterface $arrivalDate): self
+    public function setArrivalDate(?\DateTime $arrivalDate): self
     {
         $this->arrivalDate = $arrivalDate;
 
         return $this;
     }
 
-    public function getDepartureDate(): ?\DateTimeInterface
+    public function getDepartureDate(): ?\DateTime
     {
         return $this->departureDate;
     }
 
-    public function setDepartureDate(?\DateTimeInterface $departureDate): self
+    public function setDepartureDate(?\DateTime $departureDate): self
     {
         $this->departureDate = $departureDate;
 
@@ -146,6 +156,30 @@ class Itinerary
                 $planning->setItinerary(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): self
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }

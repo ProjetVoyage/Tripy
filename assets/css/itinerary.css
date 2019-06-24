@@ -12,6 +12,7 @@
     flex-flow: row wrap;
     align-content: flex-end;
     margin-top: 320px;
+    justify-content: space-evenly;
 }
 
 .bloc_itinerary {
