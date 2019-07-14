@@ -5,10 +5,12 @@ namespace App\Controller\Backend;
 use App\Entity\Travel;
 use App\Form\TravelType;
 use App\Repository\TravelRepository;
+use App\Repository\TravelerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/travels")
@@ -18,9 +20,10 @@ class TravelController extends AbstractController
     /**
      * @Route("/", name="travels_index", methods={"GET"})
      */
-    public function index(TravelRepository $travelRepository): Response
+    public function index(TravelRepository $travelRepository,UserInterface $user): Response
     {
-        return $this->render('backend/travel/index.html.twig', ['travels' => $travelRepository->findAll()]);
+
+        return $this->render('backend/travel/index.html.twig', ['travels' => $user->getTravels()]);
     }
 
     /**
@@ -64,6 +67,8 @@ class TravelController extends AbstractController
      */
     public function show(Travel $travel): Response
     {
+
+
         $expenses = $travel->getExpenses();
         $totalExpenses = 0;
 
@@ -78,8 +83,11 @@ class TravelController extends AbstractController
         foreach ($folders as $folder) {
             $documentsNumber += $folder->getDocuments()->count();
         }
+    
 
-        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers(), 'total' => $totalExpenses, 'itinerariesNumber' => $itinerariesNumber, 'documentsNumber' => $documentsNumber]);
+
+        return $this->render('backend/travel/show.html.twig', ['travel' => $travel,'travelers' => $travel->getTravelers(), 'total' => $totalExpenses,
+         'itinerariesNumber' => $itinerariesNumber, 'documentsNumber' => $documentsNumber]);
     }
 
 
@@ -121,6 +129,7 @@ class TravelController extends AbstractController
 
         return $this->redirectToRoute('travels_index');
     }
+   
 
 
 

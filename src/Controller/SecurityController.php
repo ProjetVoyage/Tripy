@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use TravelController;
 
 /**
  * Class SecurityController
@@ -43,7 +43,22 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'error' => $helper->getLastAuthenticationError(),
         ]);
+
     }
+
+     /**
+     * @Route("/mail", name="mail")
+     * @param AuthenticationUtils $helper
+     * @return Response
+     */
+    public function mailSend(AuthenticationUtils $helper): Response
+    {
+        
+        return $this->redirectToRoute('app_security_login');
+
+
+    }
+
 
     /**
      * @Route("/register", name="registration")
