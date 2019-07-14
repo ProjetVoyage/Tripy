@@ -77,7 +77,7 @@ class UserManager
             $this
                 ->templating
                 ->render('email/invitation.html.twig', [
-                    'username' => $traveler->getUsername(),'travel'=> $travel
+                    'username' => $traveler->getUsername(),'travelid'=> $travel->getId()
                 ])
         );
     }

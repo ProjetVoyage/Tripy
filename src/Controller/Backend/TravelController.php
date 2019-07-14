@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/travels")
@@ -19,9 +20,10 @@ class TravelController extends AbstractController
     /**
      * @Route("/", name="travels_index", methods={"GET"})
      */
-    public function index(TravelRepository $travelRepository): Response
+    public function index(TravelRepository $travelRepository,UserInterface $user): Response
     {
-        return $this->render('backend/travel/index.html.twig', ['travels' => $travelRepository->findAll()]);
+
+        return $this->render('backend/travel/index.html.twig', ['travels' => $user->getTravels()]);
     }
 
     /**

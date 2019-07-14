@@ -43,6 +43,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'error' => $helper->getLastAuthenticationError(),
         ]);
+
     }
 
      /**
@@ -52,7 +53,6 @@ class SecurityController extends AbstractController
      */
     public function mailSend(AuthenticationUtils $helper): Response
     {
-        echo "hello";
         
         return $this->redirectToRoute('app_security_login');
 
