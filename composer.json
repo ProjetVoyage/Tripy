@@ -7,6 +7,8 @@
         "ext-iconv": "*",
         "eternicode/bootstrap-datepicker": "^1.8",
         "fzaninotto/faker": "^1.8",
+        "jms/payment-core-bundle": "^1.4",
+        "jms/payment-paypal-bundle": "^1.2",
         "sensio/framework-extra-bundle": "^5.3",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",

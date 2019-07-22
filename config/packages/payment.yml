@@ -1,0 +1,9 @@
+# config/packages/payment.yaml
+jms_payment_core:
+  encryption:
+    secret: def0000012721f5a31d47a4ac23e3f4fcba37d71cb271507e73d761136abf46bd5ef18a988521e63390f26dfc7837c0611d1ce6630cd160ff2686535498f590241f83979
+
+jms_payment_paypal:
+  username: krasniqi.albert24_api1.gmail.com
+  password: UU9ZD7ZUEZX38NH9
+  signature: AZx4XkugDNyILvJ8dh87B-0ij7w0A4novaBM1Mus2Bpk0VT08FG5EQtU

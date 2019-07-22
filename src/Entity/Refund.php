@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Payment\CoreBundle\Entity\PaymentInstruction;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RefundRepository")
@@ -30,6 +31,11 @@ class Refund
      * @ORM\ManyToOne(targetEntity="App\Entity\Traveler", inversedBy="refunds")
      */
     private $traveler;
+
+     /**
+     * @ORM\OneToOne(targetEntity="JMS\Payment\CoreBundle\Entity\PaymentInstruction")
+     */
+    private $paymentInstruction;
 
     public function getId(): ?int
     {
@@ -70,5 +76,15 @@ class Refund
         $this->traveler = $traveler;
 
         return $this;
+    }
+
+    public function getPaymentInstruction()
+    {
+        return $this->paymentInstruction;
+    }
+
+    public function setPaymentInstruction(PaymentInstruction $instruction)
+    {
+        $this->paymentInstruction = $instruction;
     }
 }
