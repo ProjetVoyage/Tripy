@@ -30,6 +30,7 @@ class TravelerRepository extends ServiceEntityRepository
             ->getQuery();
         return $query->getResult();
     }
+
     public function findByMail($value): ?Traveler
     {
         return $this->createQueryBuilder('t')

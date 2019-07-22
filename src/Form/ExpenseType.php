@@ -13,38 +13,55 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ExpenseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
+        $refundsList = $this->rebuildOptionsList($options['refundersList']);
+
         $builder
             ->add('date', TextType::class, [
                 'label' => 'Date',
                 'attr' => [
                     'class' => 'js-datepicker',
                     'autocomplete' => 'off',
-                    ],
+                ],
             ])
             ->add('description')
             ->add('amount')
-            ->add('refundersList', EntityType::class, [
-                'class' => Traveler::class,
-                'choice_label' => 'username',
-                // 'choices' => $travel->getTravelers(),
-                'multiple' => true
+            ->add('refundersList', ChoiceType::class, [
+                'choices' => $refundsList,
+                'multiple' => true,
+                'expanded' => true
             ]);
+        // ->add('refundersList', EntityType::class, [
+        //     'class' => Traveler::class,
+        //     'choice_label' => 'username',
+        //     'data' => $options['refundersList'],
+        //     'multiple' => true
+        // ]);
 
         $builder->get('date')
             ->addModelTransformer(new DateTransformer());
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Expense::class,
+            'refundersList' => null
         ]);
+    }
+
+    public function rebuildOptionsList($options)
+    {
+        $tab = [];
+        foreach ($options as $key => $value) {
+            $tab[$value['username']] = $value['id'];
+        }
+        return $tab;
     }
 }

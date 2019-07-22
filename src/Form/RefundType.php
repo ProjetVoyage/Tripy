@@ -13,7 +13,7 @@ class RefundType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sum' , IntegerType::class, ['label' => 'Somme à rembourser : '])
+            ->add('sum' , IntegerType::class, ['label' => 'Rembourser : '])
         ;
     }
 

@@ -87,19 +87,32 @@ class RefundController extends AbstractController
      */
     public function paymentCreateAction($id, PluginController $ppc)
     {
-        $order = $this->getDoctrine()->getManager()->getRepository(Refund::class)->find($id);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.sandbox.paypal.com/v1/oauth2/token');
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); // Assuming you're requesting JSON
+curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept-Language: fr_FR'));
+curl_setopt($ch, CURLOPT_USERPWD, "AZx63CAguPBD6Hweci_I7Qm0UBQY1tQ3mAs2DT-1ENextovU9zyLlU4GKf0kyfBwc7xI23vZEMnrns44:EM2Yozpaa0xwuwLokAjZvy1j3ohfv-efG74VdhzD5Bqfq58uh6dM0Z4DIh801HVLTNO_caHkmostbynt");
+curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+$response = curl_exec($ch);
+
+// If using JSON...
+$data = json_decode($response);
+dd($data->access_token);
+
+       /* $order = $this->getDoctrine()->getManager()->getRepository(Refund::class)->find($id);
         $payment = $this->createPayment($order, $ppc);
 
         $result = $ppc->approveAndDeposit($payment, $payment->getTargetAmount());
 
-        die();
         if ($result->getStatus() === Result::STATUS_SUCCESS) {
             return $this->redirectToRoute('app_orders_paymentcomplete', [
                 'id' => $order->getId(),
             ]);
         }
 
-        throw $result->getPluginException();
+        throw $result->getPluginException();*/
 
         // In a real-world application you wouldn't throw the exception. You would,
         // for example, redirect to the showAction with a flash message informing
