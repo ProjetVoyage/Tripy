@@ -153,21 +153,21 @@ class RefundController extends AbstractController
      */
     public function edit(Request $request, Refund $refund): Response
     {
-        // $form = $this->createForm(RefundType::class, $refund);
+        $form = $this->createForm(RefundType::class, $refund);
         
-        $config = [
-            'paypal_express_checkout' => [
-                'return_url' => 'http://127.0.0.1:8000/expenses/4/refund',
-                'cancel_url' => 'http://127.0.0.1:8000/expenses/4/refund',
-                'useraction' => 'commit'
-            ]
-        ];
+        // $config = [
+        //     'paypal_express_checkout' => [
+        //         'return_url' => 'http://127.0.0.1:8000/expenses/4/refund',
+        //         'cancel_url' => 'http://127.0.0.1:8000/expenses/4/refund',
+        //         'useraction' => 'commit'
+        //     ]
+        // ];
 
-        $form = $this->createForm(ChoosePaymentMethodType::class, null, [
-            'amount'          => 10.00,
-            'currency'        => 'EUR',
-            'predefined_data' => $config,
-        ]);
+        // $form = $this->createForm(ChoosePaymentMethodType::class, null, [
+        //     'amount'          => 10.00,
+        //     'currency'        => 'EUR',
+        //     'predefined_data' => $config,
+        // ]);
 
         $form->handleRequest($request);
 
