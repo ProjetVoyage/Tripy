@@ -56,7 +56,7 @@ class RefundController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($order);
             $em->flush($order);
-            
+
             return $this->redirectToRoute('app_orders_paymentcreate', [
                 'id' => $order->getId(),
             ]);
@@ -89,9 +89,9 @@ class RefundController extends AbstractController
     {
         $order = $this->getDoctrine()->getManager()->getRepository(Refund::class)->find($id);
         $payment = $this->createPayment($order, $ppc);
-        
+
         $result = $ppc->approveAndDeposit($payment, $payment->getTargetAmount());
-        
+
         die();
         if ($result->getStatus() === Result::STATUS_SUCCESS) {
             return $this->redirectToRoute('app_orders_paymentcomplete', [
@@ -154,7 +154,7 @@ class RefundController extends AbstractController
     public function edit(Request $request, Refund $refund): Response
     {
         $form = $this->createForm(RefundType::class, $refund);
-        
+
         // $config = [
         //     'paypal_express_checkout' => [
         //         'return_url' => 'http://127.0.0.1:8000/expenses/4/refund',
@@ -169,10 +169,14 @@ class RefundController extends AbstractController
         //     'predefined_data' => $config,
         // ]);
 
+        $actualSum = $refund->getSum();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $sumTotal = $actualSum - $request->request->get('refund')['sum'];
+            $refund->setSum($sumTotal);
+            $entityManager->flush();
 
             return $this->redirectToRoute('refund_index', ['id' => $refund->getExpense()->getId()]);
         }
