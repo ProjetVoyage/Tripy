@@ -1,49 +1,40 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Traveler{% endblock %} {% block body %}
+<h1>Traveler</h1>
 
-{% block title %}Traveler{% endblock %}
+<table class="table">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ traveler.id }}</td>
+        </tr>
+        <tr>
+            <th>Photo</th>
+            <td><img class="profile-picture" src="{{ asset('uploads/profil/' ~ traveler.image) }}" alt="{{ traveler.image }}" /></td>
 
-{% block body %}
-    <h1>Traveler</h1>
+        </tr>
+        <tr>
+            <th>Roles</th>
+            <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ traveler.email }}</td>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <td>{{ traveler.password }}</td>
+        </tr>
+        <tr>
+            <th>My Travels</th>
+            <td>
+                {% for travel in travels %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ traveler.id }}</td>
-            </tr>
-             <tr>
-                <th>Photo</th>
-                 <td><img class="profile-picture" src="{{ asset('uploads/profil/' ~ traveler.image) }}" alt="{{ traveler.image }}" /></td>
+                <a href="{{ path('travels_show', {'id': travel.id}) }}">  {{ travel.name }}</a> {% endfor %}
+            </td>
+        </tr>
+    </tbody>
+</table>
 
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ traveler.email }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ traveler.password }}</td>
-            </tr>
-              <tr>
-                <th>My Travels</th>    
-                <td>
-                    {% for travel in travels %}
-                  
-                    <a href="{{ path('travels_show', {'id': travel.id}) }}">  {{ travel.name }}</a>
+<a href="{{ path('traveler_index') }}">back to list</a>
 
-                    {% endfor %}
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('traveler_index') }}">back to list</a>
-
-    <a href="{{ path('traveler_edit', {'id': traveler.id}) }}">edit</a>
-
-    {{ include('backend/traveler/_delete_form.html.twig') }}
-{% endblock %}
+<a href="{{ path('traveler_edit', {'id': traveler.id}) }}">edit</a> {{ include('backend/traveler/_renvoye_form.html.twig') }} {% endblock %}

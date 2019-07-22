@@ -53,7 +53,7 @@ use Symfony\Component\Routing\Annotation\Route;
         return $this->render('backend/document/new.html.twig', [
             'document' => $document,
             'form' => $form->createView(),
-        ]);
+        ]); 
     }
 
     /**
@@ -63,9 +63,13 @@ use Symfony\Component\Routing\Annotation\Route;
      */
     public function show(Document $document): Response
     {
+        $file=$document->getUrl();
+        $extension = pathinfo($file, PATHINFO_EXTENSION);
+
         return $this->render('backend/document/show.html.twig', [
             'document' => $document,
-            'documentSrc' => 'uploads/document/' . $document->getUrl()
+            'documentSrc' => 'uploads/document/' . $document->getUrl(),
+            'extension' => $extension
         ]);
     }
 

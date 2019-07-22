@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use TravelController;
 
 /**
  * Class SecurityController
@@ -20,19 +20,15 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  */
 class SecurityController extends AbstractController
 {
-
     /**
      * @var UserManager
      */
     private $manager;
-
     public function __construct(
         UserManager $manager
-    )
-    {
+    ) {
         $this->manager = $manager;
     }
-
     /**
      * @Route("/login", name="login")
      * @param AuthenticationUtils $helper
@@ -44,7 +40,15 @@ class SecurityController extends AbstractController
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
-
+    /**
+     * @Route("/mail", name="mail")
+     * @param AuthenticationUtils $helper
+     * @return Response
+     */
+    public function mailSend(AuthenticationUtils $helper): Response
+    {
+        return $this->redirectToRoute('app_security_login');
+    }
     /**
      * @Route("/register", name="registration")
      * @param Request $request
@@ -56,10 +60,8 @@ class SecurityController extends AbstractController
         if ($this->getUser() instanceof Traveler) {
             return $this->redirectToRoute('app_security_login');
         }
-
         $traveler = new Traveler();
         $form = $this->createForm(TravelerType::class, $traveler);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $passwordEncoder->encodePassword($traveler, $traveler->getPassword());
@@ -68,26 +70,21 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($traveler);
             $em->flush();
-
             if ($traveler) {
                 dump($traveler);
                 try {
                     $this->manager->sendWelcomeEmail($traveler);
-                } catch (\Twig_Error_Loader $e) {
-                } catch (\Twig_Error_Runtime $e) {
-                } catch (\Twig_Error_Syntax $e) {
-                }
+                } catch (\Twig_Error_Loader $e) { } catch (\Twig_Error_Runtime $e) { } catch (\Twig_Error_Syntax $e) { }
             }
-
             return $this->redirectToRoute('app_security_login');
         }
         return $this->render(
-            'security/register.html.twig', [
+            'security/register.html.twig',
+            [
                 'form' => $form->createView()
             ]
         );
     }
-
     /**
      * @Route(path="/logout", name="logout")
      * @throws \Exception

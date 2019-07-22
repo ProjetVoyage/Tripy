@@ -18,33 +18,24 @@ class TravelerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Traveler::class);
     }
-
-    // /**
-    //  * @return Traveler[] Returns an array of Traveler objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByWord($keyword): ?Traveler
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $result = $this->createQueryBuilder('t')
+            ->where('t.username LIKE :key')->orWhere('t.email LIKE :key')
+            ->setParameter('key', '%' . $keyword . '%')->getQuery();
 
-    /*
-    public function findOneBySomeField($value): ?Traveler
+        $query = $this->createQueryBuilder('t')
+            ->where('t.username LIKE :key')
+            ->setParameter('key', '%' . $keyword . '%')
+            ->getQuery();
+        return $query->getResult();
+    }
+    public function findByMail($value): ?Traveler
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
 }

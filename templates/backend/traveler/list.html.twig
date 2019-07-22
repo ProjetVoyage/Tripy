@@ -1,26 +1,24 @@
 {% extends 'base.html.twig' %} {% block title %}Traveler index{% endblock %} {% block body %}
-<h1>Traveler index</h1>
+<h1>Voyageurs</h1>
 
+{{ form_start(form) }} {{ form_widget(form) }}
+<button class="btn">{{ button_label|default(' Rechercher') }}</button> {{ form_end(form) }}
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Roles</th>
             <th>Email</th>
-            <th>Password</th>
-            <th>actions</th>
+
         </tr>
     </thead>
     <tbody>
         {% for traveler in travelers %}
         <tr>
             <td>{{ traveler.id }}</td>
-            <td>{{ traveler.roles ? traveler.roles|json_encode : '' }}</td>
             <td>{{ traveler.email }}</td>
-            <td>{{ traveler.password }}</td>
+
 
             <td>
-                <a href="{{ path('traveler_edit', {'id': traveler.id}) }}">edit</a>
+                <a href="{{ path('traveler_invite', {'id': traveler.id,'idvoyage': travel.id} ) }}">Ajouter</a>
             </td>
         </tr>
         {% else %}
@@ -31,4 +29,5 @@
     </tbody>
 </table>
 
-<a href="{{ path('traveler_new') }}">Create new</a> {% endblock %}
+
+{% endblock %}
