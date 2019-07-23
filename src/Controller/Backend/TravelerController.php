@@ -47,7 +47,13 @@ class TravelerController extends AbstractController
 
         $traveler = new Traveler();
         $form = $this->createFormBuilder($traveler)
-            ->add('email', TextType::class)
+            ->add(
+                'email',
+                TextType::class,
+                [
+                    'label' => 'Rechercher par Email'
+                ]
+            )
             ->getForm();
         $form->handleRequest($request);
         $email = $form->get('email')->getData();

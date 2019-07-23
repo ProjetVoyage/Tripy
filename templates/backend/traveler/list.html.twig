@@ -2,28 +2,28 @@
 <h1>Voyageurs</h1>
 
 {{ form_start(form) }} {{ form_widget(form) }}
-<button class="btn">{{ button_label|default(' Rechercher') }}</button> {{ form_end(form) }}
+<button class="btn btn-primary" style="margin-bottom: 50px;">{{ button_label|default('Lancer la recherche') }}</button> {{ form_end(form) }}
 <table class="table">
     <thead>
         <tr>
+            <th>Pseudo</th>
             <th>Email</th>
-
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
         {% for traveler in travelers %}
         <tr>
-            <td>{{ traveler.id }}</td>
+            <td>{{ traveler.username }}</td>
             <td>{{ traveler.email }}</td>
-
-
             <td>
-                <a href="{{ path('traveler_invite', {'id': traveler.id,'idvoyage': travel.id} ) }}">Ajouter</a>
+                <a href="{{ path('traveler_invite', {'id': traveler.id,'idvoyage': travel.id} ) }}">Ajouter au
+                    Voyage</a>
             </td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="5">no records found</td>
+            <td colspan="5">Aucun Voyageurs n'a été trouvé</td>
         </tr>
         {% endfor %}
     </tbody>

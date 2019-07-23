@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Folder{% endblock %}
+{% block title %}Créer un répertoire{% endblock %}
 
 {% block body %}
 <div class="container p-3">
-    <h1>Create new Folder</h1>
+    <h1>Créer un répertoire</h1>
 
     {{ include('backend/folder/_form.html.twig') }}
 
-    <a href="{{ path('folder_index' , {'id': travel.id}) }}">back to list</a>
+    <a href="{{ path('folder_index' , {'id': travel.id}) }}">Retour à la liste</a>
 </div>
 {% endblock %}

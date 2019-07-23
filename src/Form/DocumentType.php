@@ -7,20 +7,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class DocumentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('url', FileType::class, array('data_class' => null),array('label'=>'Choisissez votre document'))
-            ->add('folder')
-
-        ;
+            ->add('name', TextType::class, [
+                'label' => 'Nom du Fichier'
+            ])
+            ->add('url', FileType::class, [
+                'label' => 'Choisissez votre document'
+            ])
+            ->add('folder');
     }
-
+    // ->add('url', FileType::class, array('data_class' => null), [
+    //     'label' => 'Choisissez votre document'
+    // ])
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

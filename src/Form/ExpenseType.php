@@ -31,19 +31,16 @@ class ExpenseType extends AbstractType
                 ],
             ])
             ->add('description')
-            ->add('amount')
+            ->add('amount', TextType::class,[
+                'label' => 'Montant'
+            ])
             ->add('refundersList', ChoiceType::class, [
                 'choices' => $refundsList,
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'label' => 'Liste des voyageurs'
             ]);
-        // ->add('refundersList', EntityType::class, [
-        //     'class' => Traveler::class,
-        //     'choice_label' => 'username',
-        //     'data' => $options['refundersList'],
-        //     'multiple' => true
-        // ]);
-
+            
         $builder->get('date')
             ->addModelTransformer(new DateTransformer());
     }

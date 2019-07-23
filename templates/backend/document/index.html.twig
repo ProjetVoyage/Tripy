@@ -1,38 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Document index{% endblock %}
+{% block title %}Liste des Documents{% endblock %}
 
 {% block body %}
 <div class="container p-3">
-    <h1>Document index</h1>
+    <h1>Liste des {{ folder.name }} </h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>File</th>
-                <th>actions</th>
+                <th>Intitulé</th>
+                <th>Fichier</th>
             </tr>
         </thead>
         <tbody>
-        {% for document in documents %}
+            {% for document in documents %}
             <tr>
-                <td>{{ document.id }}</td>
                 <td>{{ document.name }}</td>
-                <td><a href="{{ asset('uploads/document/' ~ document.url) }}" target="_blank">{{ document.url }}</a></td>
-                <td>
-                    <a href="{{ path('document_show', {'id': document.id}) }}">show</a>
-                    <a href="{{ path('document_edit', {'id': document.id}) }}">edit</a>
+                <td><a href="{{ asset('uploads/document/' ~ document.url) }}" target="_blank">{{ document.url }}</a>
                 </td>
             </tr>
-        {% else %}
+            {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Pas de {{ folder.name }} enregistrés</td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('document_new') }}">Create new</a>
+    <a href="{{ path('document_new') }}" class="btn btn-primary">Enregistrer {{ folder.name }}</a>
 </div>
 {% endblock %}

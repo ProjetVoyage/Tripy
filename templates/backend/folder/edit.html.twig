@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Folder{% endblock %}
+{% block title %}Editer le Répertoire{% endblock %}
 
 {% block body %}
 <div class="container p-3">
-    <h1>Edit Folder</h1>
+    <h1>Editer le Répertoire</h1>
 
-    {{ include('backend/folder/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('backend/folder/_form.html.twig', {'button_label': 'Éditer'}) }}
 
-    <a href="{{ path('folder_index' , {'id': travel.id} ) }}">back to list</a>
+    <a href="{{ path('folder_index' , {'id': travel.id} ) }}">Retour à la liste des répertoires</a>
 </div>
 {% endblock %}

@@ -155,7 +155,7 @@ window.onload = function () {
     card += '   </div>';
 
     // card += '   <button class="btn">Sauvegarder</button>';
-    card += '   <input type="submit" name="submit" value="Sauvegarder">';
+    card += '   <input type="submit" name="submit" class="btn btn-primary" value="Sauvegarder">';
     card += ' </form>';
     card += '</div>';
     card += '</div>';
@@ -208,7 +208,7 @@ window.onload = function () {
                             });
                         }
                     }
-                    
+
                     $("input[name='itinerary[countryName]']").val(country);
                     $("input[name='itinerary[cityName]']").val(city);
                     $("input[name='itinerary[latitude]']").val(e.latlng.lat);
@@ -231,7 +231,7 @@ window.onload = function () {
 
             var from_start = start_travel.split("/")
             var start_travel_final = new Date(from_start[2], from_start[1] - 1, from_start[0])
-            e.preventDefault();
+            
             var from_end = end_travel.split("/")
             var end_travel_final = new Date(from_end[2], from_end[1] - 1, from_end[0])
 
@@ -258,13 +258,13 @@ window.onload = function () {
             } else if (test_fintravel_enditi < 0) {
                 e.preventDefault();
                 alert('Attention ! La date de fin de l\'itinéraire ne peut être supérieur à celle de la fin du voyage !');
-            } else if (test_jour_depart <= 0) {
+            } else if (test_jour_depart < 0) {
                 e.preventDefault();
                 alert('Attention ! La date du jour ne peut être antérieur à celle du départ !');
-            } else if (test_jour_retour <= 0) {
+            } else if (test_jour_retour < 0) {
                 e.preventDefault();
                 alert('Attention ! La date du retour ne peut être antérieur à celle du jour !');
-            } else if (test_depart_retour <= 0) {
+            } else if (test_depart_retour < 0) {
                 e.preventDefault();
                 alert('Attention ! La date du retour ne peut être antérieur à celle du départ !');
             }

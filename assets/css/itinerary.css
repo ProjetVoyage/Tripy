@@ -5,7 +5,7 @@
 }
 
 .past{
-    background-color: pink !important;
+    background-color: rgb(220,220,220) !important;
 }
 
 .between{
@@ -13,7 +13,7 @@
 }
 
 .after{
-    background-color: green !important;
+    background-color: rgb(220,220,220) !important;
 }
 
 #bloc_global {
