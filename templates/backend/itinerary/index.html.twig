@@ -1,45 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Mes itinéraires{% endblock %} {% block stylesheets %}
+{{ encore_entry_link_tags('map') }}
+ {{ encore_entry_link_tags('itinerary') }} 
+{% endblock %} {% block body %}
+<h1>Mes itinéraires - {{ travel.name }}</h1>
 
-{% block title %}Mes itinéraires{% endblock %}
+<div id="div_map">
+    <div id="map"></div>
+</div>
 
-{% block stylesheets %}
-    {{ encore_entry_link_tags('map') }}
-    {{ encore_entry_link_tags('itinerary') }}
-{% endblock %}
+<div id="bloc_global"> {% set class_color = 'past' %}
+    {% set myVal = 0 %} {% for itinerary in itineraries %}
+    {% if date(itinerary.departureDate) < date() and date(itinerary.arrivalDate) > date() %}
+        {% set class_color = 'between' %}
+    {% endif %}
+    {% if date(itinerary.arrivalDate) < date() %}
+        {% set class_color = 'past' %}
+    {% endif %}
+    {% if date(itinerary.departureDate) > date() %}
+        {% set class_color = 'after' %}
+    {% endif %}
+    <div class="card p-0 {{ class_color }}" id="card{{ myVal }}" lat="{{ itinerary.latitude }}" lng="{{ itinerary.longitude }}">
+        <div class="card-image">
+            <div class="actions-travel position-absolute d-flex flex-column">
+                <!-- <a href="{{ path('travels_show', {'id': travel.id}) }}" class="btn btn-primary edit" id="{{ myVal }}"><i class="far fa-edit"></i></a> -->
+                <form class="mt-1" method="post" action="{{ path('itinerary_delete', {'id': itinerary.id}) }}"
+                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet itinéraire ?');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ itinerary.id) }}">
+                    <button class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></button>
+                </form>
 
-{% block body %}
-    <h1>Mes itinéraires - {{ travel.name }}</h1>
-    
-    <div id="div_map">
-        <div id="map"></div>
+            </div>
+            <img class="card-img-top h-auto" src="{{ asset('build/images/japan_cover.jpg') }}" alt="Card image cap">
+
+        </div>
+        <div class="card-body pb-0">
+            <h3>{{ itinerary.cityName ? itinerary.cityName : '' }},
+                {{ itinerary.countryName ? itinerary.countryName : '' }}</h3>
+            <p class="text-primary">Du
+                <b>{{ itinerary.departureDate ? itinerary.departureDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b>
+                au
+                <b>{{ itinerary.arrivalDate ? itinerary.arrivalDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b>
+            </p>
+        </div>
     </div>
 
-    <div id="bloc_global">
-    {% set myVal = 0 %}
-    {% for itinerary in itineraries %}
-    
-        <div class="card p-0"  id="card{{ myVal }}" lat="{{ itinerary.latitude }}" lng="{{ itinerary.longitude }}">
-            <div class="card-image">
-                <div class="actions-travel position-absolute d-flex flex-column">
-                    <!-- <a href="{{ path('travels_show', {'id': travel.id}) }}" class="btn btn-primary edit" id="{{ myVal }}"><i class="far fa-edit"></i></a> -->
-                    <form class="mt-1" method="post" action="{{ path('itinerary_delete', {'id': itinerary.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet itinéraire ?');">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ itinerary.id) }}">
-                        <button class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></button>
-                    </form>
 
-                </div>
-                <img class="card-img-top h-auto" src="{{ asset('build/images/japan_cover.jpg') }}" alt="Card image cap">
-
-            </div>
-            <div class="card-body pb-0">
-                <h3>{{ itinerary.cityName ? itinerary.cityName : '' }}, {{ itinerary.countryName ? itinerary.countryName : '' }}</h3>
-                <p class="text-primary">Du <b>{{ itinerary.departureDate ? itinerary.departureDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b> au <b>{{ itinerary.arrivalDate ? itinerary.arrivalDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') : '' }}</b></p>
-            </div>
-        </div>
-        
-        
-        <!-- <div class="card p-0" id="cardhidden{{ myVal }}" style="display: none; padding-bottom: 20px !important;">
+    <!-- <div class="card p-0" id="cardhidden{{ myVal }}" style="display: none; padding-bottom: 20px !important;">
              <div class="card-body pb-0">
              <form name="itinerary" method="post" action="/travels/'+id_travel+'/itineraries/newByAjax" >
         
@@ -77,21 +84,19 @@
              </form>
             </div>
             </div> -->
-            
 
 
-        {% set myVal = myVal + 1 %}
 
-    {% else %}
-        <tr>
-            <td colspan="4">Pas d'itinéraires encore programmés ...</td>
-        </tr>
+    {% set myVal = myVal + 1 %} {% else %}
+    <tr>
+        <td colspan="4">Pas d'itinéraires encore programmés ...</td>
+    </tr>
     {% endfor %}
-    
-    </div>
 
-{% endblock %}
+</div>
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('map') }}
+{% endblock %} 
+
+{% block javascripts %} 
+    {{ encore_entry_script_tags('map') }} 
 {% endblock %}

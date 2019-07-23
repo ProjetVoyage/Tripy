@@ -22,6 +22,7 @@
             </div>
             <div class="card-body pb-0">
                 <h3>{{ travel.name }}</h3>
+                <p class="text-primary">Du <b>{{ travel.startDate|localizeddate('none', 'none', null, null, 'dd MMM Y') }}</b> au <b>{{ travel.endDate|localizeddate('none', 'none', null, null, 'dd MMM Y') }}</b></p>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 require('../css/map.css');
 
-window.onload = function () {
+window.onload = function() {
 
     var map = L.map('map').setView([48.833, 2.333], 6);
 
@@ -12,14 +12,15 @@ window.onload = function () {
 
     // création et ajout du LayerGroup
     lgMarkers = new L.LayerGroup();
+    PolyMarkers = new L.LayerGroup();
 
-    searchControl.on('results', function(data){
-        
+    searchControl.on('results', function(data) {
+
         groupMarkerSearch.clearLayers();
         for (var i = data.results.length - 1; i >= 0; i--) {
-            console.log(data);
             var latlgnData = data.results[i].latlng;
-
+            var latPoint = data.results[i].latlng.lat;
+            var lngPoint = data.results[i].latlng.lng;
             $.ajax({
                 type: 'GET',
                 url: "http://nominatim.openstreetmap.org/reverse",
@@ -30,50 +31,64 @@ window.onload = function () {
                     limit: 1,
                     lat: data.results[i].latlng.lat,
                     lon: data.results[i].latlng.lng,
-                    adressdetails : 1,
+                    adressdetails: 1,
                     json_callback: 'data'
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
-                    if( xhr.status !== 200 ){
-                        alert('Problème de requète'); 
+                    if (xhr.status !== 200) {
+                        alert('Problème de requète');
                     }
                 },
-                success: function(data){
-                    if( data.address !== undefined ){
+                success: function(data) {
+                    if (data.address !== undefined) {
                         country = data.address['country'];
-    
-                        if( data.address['city'] !== undefined ){
+
+                        if (data.address['city'] !== undefined) {
                             city = data.address['city'];
-                        }else if( data.address['state'] !== undefined ){
+                        } else if (data.address['state'] !== undefined) {
                             city = data.address['state'];
                         }
-                        
+
                         lgMarkers.clearLayers();
                         map.addLayer(lgMarkers);
-                        
-                        groupMarkerSearch.addLayer(L.marker(latlgnData).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup());
-                        $('.leaflet-marker-icon').trigger('click');
-                        $( "input[name='itinerary[countryName]']" ).val(country);
-                        $( "input[name='itinerary[cityName]']" ).val(city);
+
+                        if ($("#uniqueAddCard").attr("class") === undefined) {
+                            $("#bloc_global").append(card);
+                            // $( "#uniqueAddCard" ).css("display", "block");
+                            $('.js-datepicker').datepicker({
+                                format: "dd/mm/yyyy",
+                                autoclose: true,
+                                orientation: "bottom",
+                            });
+                        }
+                        L.marker(latlgnData).addTo(lgMarkers).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup();
+                        // groupMarkerSearch.addLayer(L.marker(latlgnData).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup());
+                        // $('.leaflet-marker-icon').trigger('click');
+                        $("input[name='itinerary[countryName]']").val(country);
+                        $("input[name='itinerary[cityName]']").val(city);
+                        $("input[name='itinerary[latitude]']").val(latPoint);
+                        $("input[name='itinerary[longitude]']").val(lngPoint);
                     }
                 }
             });
         }
     });
-    
-    // alert('Bienvenue ! Cliquez sur la map pour commencer à programmer votre itinéraire !');
 
     var url = window.location.href.split('/');
-    
+
     var id_travel = url[4];
-    
+
     function pointsArray() {
         var pointsArray = new Array();
-        
-        $( ".card" ).each(function() {
-            pointsArray.push(new L.LatLng($(this).attr('lat'),$(this).attr('lng')));
+
+        PolyMarkers.clearLayers();
+        map.addLayer(PolyMarkers);
+
+        $(".card").each(function() {
+            pointsArray.push(new L.LatLng($(this).attr('lat'), $(this).attr('lng')));
+            L.marker(new L.LatLng($(this).attr('lat'), $(this).attr('lng'))).addTo(PolyMarkers);
         });
-        
+
         return pointsArray;
     }
 
@@ -98,10 +113,10 @@ window.onload = function () {
     //     }
     // });
 
-    
+
     var card = '<div class="card p-0" id="uniqueAddCard" style="padding-bottom: 20px !important;">';
     card += ' <div class="card-body pb-0">';
-    card += ' <form name="itinerary" method="post" action="/travels/'+id_travel+'/itineraries/newByAjax" >';
+    card += ' <form name="itinerary" method="post" action="/travels/' + id_travel + '/itineraries/newByAjax" >';
 
     card += '<div id="itinerary" style="margin-bottom: 22px;">';
 
@@ -130,7 +145,7 @@ window.onload = function () {
     card += '</div>';
 
     // card += '<input type="hidden" id="itinerary__token" name="itinerary[_token]">';
-    card += '<input type="hidden" name="itinerary[id_travel]" value="'+id_travel+'">';
+    card += '<input type="hidden" name="itinerary[id_travel]" value="' + id_travel + '">';
     card += '<input type="hidden" name="itinerary[latitude]" >';
     card += '<input type="hidden" name="itinerary[longitude]" >';
 
@@ -141,48 +156,45 @@ window.onload = function () {
     card += ' </form>';
     card += '</div>';
     card += '</div>';
-    
 
     map.on('click', function(e) {
         groupMarkerSearch.clearLayers();
-        
-		$.ajax({
-		    type: 'GET',
-		    url: "http://nominatim.openstreetmap.org/reverse",
-		    dataType: 'jsonp',
-		    jsonpCallback: 'data',
+        $.ajax({
+            type: 'GET',
+            url: "http://nominatim.openstreetmap.org/reverse",
+            dataType: 'jsonp',
+            jsonpCallback: 'data',
             data: {
                 format: "json",
                 limit: 1,
                 lat: e.latlng.lat,
                 lon: e.latlng.lng,
-                adressdetails : 1,
+                adressdetails: 1,
                 json_callback: 'data'
             },
-		    error: function() {
-            alert('Problème de requète'); },
-		    success: function(data){
-                
-                if( data.address !== undefined ){
+            error: function() {
+                alert('Problème de requète');
+            },
+            success: function(data) {
+
+                if (data.address !== undefined) {
                     country = data.address['country'];
 
-                    if( data.address['city'] !== undefined ){
+                    if (data.address['city'] !== undefined) {
                         city = data.address['city'];
-                    }else if( data.address['county'] !== undefined ){
+                    } else if (data.address['county'] !== undefined) {
                         city = data.address['county'];
-                    }else if( data.address['state'] !== undefined ){
+                    } else if (data.address['state'] !== undefined) {
                         city = data.address['state'];
                     }
-                    
+
                     lgMarkers.clearLayers();
                     map.addLayer(lgMarkers);
-          
-                    L.marker(e.latlng).addTo(lgMarkers).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup();
-                    
 
-                    console.log($( "#uniqueAddCard" ).attr("class"));
-                    if( $( "#uniqueAddCard" ).attr("class") === undefined ){
-                        $( "#bloc_global" ).append(card);
+                    L.marker(e.latlng).addTo(lgMarkers).bindPopup(" Pays : " + country + " <br> Ville : " + city).openPopup();
+
+                    if ($("#uniqueAddCard").attr("class") === undefined) {
+                        $("#bloc_global").append(card);
                         // $( "#uniqueAddCard" ).css("display", "block");
                         $('.js-datepicker').datepicker({
                             format: "dd/mm/yyyy",
@@ -190,23 +202,14 @@ window.onload = function () {
                             orientation: "bottom",
                         });
                     }
-                    
-                    $( "input[name='itinerary[countryName]']" ).val(country);
-                    $( "input[name='itinerary[cityName]']" ).val(city);
-                    $( "input[name='itinerary[latitude]']" ).val(e.latlng.lat);
-                    $( "input[name='itinerary[longitude]']" ).val(e.latlng.lng);
-                    
+
+                    $("input[name='itinerary[countryName]']").val(country);
+                    $("input[name='itinerary[cityName]']").val(city);
+                    $("input[name='itinerary[latitude]']").val(e.latlng.lat);
+                    $("input[name='itinerary[longitude]']").val(e.latlng.lng);
+
                 }
-		    }
-		});
+            }
+        });
     });
-
-    // $(".edit").click(function(e){
-    //     e.preventDefault();
-    //     var id_card = $(this).attr('id');
-
-    //     $('#card'+id_card).css('display', 'none');
-    //     $('#cardhidden'+id_card).css('display', 'block');
-    // });
-
 }

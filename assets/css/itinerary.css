@@ -4,6 +4,18 @@
     margin-bottom: 20px;
 }
 
+.past{
+    background-color: pink !important;
+}
+
+.between{
+    background-color: white !important;
+}
+
+.after{
+    background-color: green !important;
+}
+
 #bloc_global {
     display: flex;
     align-items: center;

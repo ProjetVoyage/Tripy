@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Controller\Backend;
+
 use App\Entity\Itinerary;
 use App\Entity\Travel;
 use App\Form\ItineraryType;
@@ -9,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 class ItineraryController extends AbstractController
 
 {
@@ -30,7 +33,7 @@ class ItineraryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($itinerary);
             $entityManager->flush();
-            
+
             return $this->redirectToRoute('itinerary_index', ['id' => $travel->getId()]);
         }
 
@@ -44,17 +47,17 @@ class ItineraryController extends AbstractController
     // {
 
     //     $data = $request->request->get('id_travel');
-        
+
     //     $itineraries = $itineraryRepository->findBy(
     //         ['travel' => $data],
     //         ['departureDate' => 'ASC']
     //     );
-        
+
     //     $response = new Response(json_encode(array(
     //         'data' => $itineraries
     //     )));
     //     $response->headers->set('Content-Type', 'application/json');
-    
+
     //     return $response;
     // }
 
@@ -64,7 +67,7 @@ class ItineraryController extends AbstractController
      */
     public function new(Request $request, Travel $travel): Response
     {
-        
+
         $itinerary = new Itinerary();
         $itinerary->setTravel($travel);
         $form = $this->createForm(ItineraryType::class, $itinerary);
@@ -73,7 +76,7 @@ class ItineraryController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($itinerary);
             $entityManager->flush();
-            
+
             return $this->redirectToRoute('itinerary_index', ['id' => $travel->getId()]);
         }
         return $this->render('backend/itinerary/new.html.twig', [
@@ -91,15 +94,15 @@ class ItineraryController extends AbstractController
         $data = $request->request->get('itinerary');
         $date_debut_exploded = explode('/', $data['departureDate']);
         $date_debut_done = $date_debut_exploded[2] . '-' . $date_debut_exploded[1] . '-' .  $date_debut_exploded[0];
-        
+
         $date_fin_exploded = explode('/', $data['arrivalDate']);
         $date_fin_done = $date_fin_exploded[2] . '-' . $date_fin_exploded[1] . '-' .  $date_fin_exploded[0];
 
         $date_debut = new \DateTime($date_debut_done);
         $date_fin = new \DateTime($date_fin_done);
-        
+
         $entityManager = $this->getDoctrine()->getManager();
-        
+
         $itinerary = new Itinerary();
         $itinerary->setTravel($travel);
         $itinerary->setDepartureDate($date_debut);
@@ -123,15 +126,15 @@ class ItineraryController extends AbstractController
     //     $data = $request->request->get('itinerary');
     //     $date_debut_exploded = explode('/', $data['departureDate']);
     //     $date_debut_done = $date_debut_exploded[2] . '-' . $date_debut_exploded[1] . '-' .  $date_debut_exploded[0];
-        
+
     //     $date_fin_exploded = explode('/', $data['arrivalDate']);
     //     $date_fin_done = $date_fin_exploded[2] . '-' . $date_fin_exploded[1] . '-' .  $date_fin_exploded[0];
 
     //     $date_debut = new \DateTime($date_debut_done);
     //     $date_fin = new \DateTime($date_fin_done);
-        
+
     //     $entityManager = $this->getDoctrine()->getManager();
-        
+
     //     $itinerary->setTravel($travel);
     //     $itinerary->setDepartureDate($date_debut);
     //     $itinerary->setArrivalDate($date_fin);
@@ -158,7 +161,7 @@ class ItineraryController extends AbstractController
     {
         $form = $this->createForm(ItineraryType::class, $itinerary);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('itinerary_edit', ['id' => $itinerary->getId(), 'travel' => $itinerary->getTravel()]);
@@ -175,8 +178,8 @@ class ItineraryController extends AbstractController
      */
     public function delete(Request $request, Itinerary $itinerary): Response
     {
-        
-        if ($this->isCsrfTokenValid('delete'.$itinerary->getId(), $request->request->get('_token'))) {
+
+        if ($this->isCsrfTokenValid('delete' . $itinerary->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($itinerary);
             $entityManager->flush();
