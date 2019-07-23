@@ -3,6 +3,7 @@
 {% block title %}Refund{% endblock %}
 
 {% block body %}
+<div class="container p-3">
     <h1>Refund</h1>
 
     <table class="table">
@@ -23,4 +24,5 @@
     <a href="{{ path('refund_edit', {'id': refund.id}) }}">edit</a>
 
     {{ include('refund/_delete_form.html.twig') }}
+</div>
 {% endblock %}

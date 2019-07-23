@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %} {% block title %}Traveler index{% endblock %} {% block body %}
-<h1>Traveler index</h1>
+<div class="container p-3">
+    <h1>Traveler index</h1>
 
 <table class="table">
     <thead>
@@ -31,4 +32,6 @@
     </tbody>
 </table>
 
-<a href="{{ path('traveler_new') }}">Create new</a> {% endblock %}
+<a href="{{ path('traveler_new') }}">Create new</a>
+</div>
+{% endblock %}

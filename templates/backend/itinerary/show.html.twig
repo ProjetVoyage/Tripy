@@ -3,6 +3,7 @@
 {% block title %}{{ travel.name ? travel.name : '' }}{% endblock %}
 
 {% block body %}
+<div class="container p-3">
     <h1>{{ travel.name ? travel.name : '' }} - {{ itinerary.countryName ? itinerary.countryName : '' }}, {{ itinerary.cityName ? itinerary.cityName : '' }}</h1>
 
     <table class="table">
@@ -18,7 +19,6 @@
             <tr>
                 <th>Date d'arrivée </th>
                 <td>{{ itinerary.arrivalDate ? itinerary.arrivalDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
             </tr>
             <tr>
                 <th> Pays </th>
@@ -37,4 +37,5 @@
     <a href="{{ path('itinerary_edit', {'id': itinerary.id} ) }}">Éditer</a>
     
     {{ include('backend/itinerary/_delete_form.html.twig') }}
+</div>
 {% endblock %}

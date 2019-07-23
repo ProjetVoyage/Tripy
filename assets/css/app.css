@@ -1,39 +1,91 @@
-html {
-    height: 100%;
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+html,
 body {
-    min-height: 100%;
-    background-color: #F2F2F2;
+  min-height: 100vh;
+  height: 100%;
+  font-family: sans-serif;
+  background-color: #fefefe;
+}
+
+.main {
+  height: 100%;
+}
+
+.login {
+  width: 100%;
+  max-width: 50em;
+  padding: 15px;
+}
+
+.cover-container {
+ max-width: 65em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select.form-control {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select.form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.rounded-btn {
+  border-radius: 2em;
+}
+
+.custom-btn {
+  width: 7em;
+  height: 3em;
 }
 
 .card-image {
-    max-height: 150px;
-    overflow: hidden;
+  max-height: 150px;
+  overflow: hidden;
 }
 
 .small-logo {
-    width: 30px;
+  width: 3em;
 }
 
 .actions-travel {
-    top: 10px;
-    right: 10px;
+  top: 10px;
+  right: 10px;
 }
 
 .profile-picture {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 .bg-black {
     background-color: #4F4F4F;
 }
 
-.navbar-light .navbar-nav .nav-link, .nav-item .active, .navbar-light .navbar-nav .active>.nav-link {
-    color: white;
+.navbar-light .navbar-nav .nav-link,
+.nav-item .active,
+.navbar-light .navbar-nav .active>.nav-link {
+  color: white;
 }
 
 .grad-back {
-    background: linear-gradient(180deg, #56CCF2 0%, rgba(255, 255, 255, 0) 100%), #008CEE;
+  background: linear-gradient(180deg, #56CCF2 0%, rgba(255, 255, 255, 0) 100%), #008CEE;
 }

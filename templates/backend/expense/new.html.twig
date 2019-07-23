@@ -3,10 +3,11 @@
 {% block title %}Nouvelle Dépense{% endblock %}
 
 {% block body %}
+<div class="container p-3">
     <h1>Nouvelle Dépense</h1>
 
     {{ include('backend/expense/_form.html.twig') }}
 
     <a href="{{ path('expense_index', { 'id': travel.id }) }}">Retour à la liste des dépenses</a>
-
+</div>
 {% endblock %}

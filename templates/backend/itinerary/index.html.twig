@@ -7,16 +7,17 @@
 {% endblock %}
 
 {% block body %}
-<h1>Mes itinéraires - {{ travel.name }}</h1>
-<div style="display: flex; margin-left: 15px;">
-    <p id="{{ travel.startDate|date('d/m/Y') }}" class="startDateTravel"> Du
-        {{ travel.startDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
-    <p id="{{ travel.endDate|date('d/m/Y')}}" class="endDateTravel" style="margin-left: 5px;">au
-        {{ travel.endDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
-</div>
-<div id="div_map">
-    <div id="map"></div>
-</div>
+<div class="container p-3">
+    <h1>Mes itinéraires - {{ travel.name }}</h1>
+    <div style="display: flex; margin-left: 15px;">
+        <p id="{{ travel.startDate|date('d/m/Y') }}" class="startDateTravel"> Du
+            {{ travel.startDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
+        <p id="{{ travel.endDate|date('d/m/Y')}}" class="endDateTravel" style="margin-left: 5px;">au
+            {{ travel.endDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
+    </div>
+    <div id="div_map">
+        <div id="map"></div>
+    </div>
 
 <div id="bloc_global"> {% set class_color = 'past' %}
     {% set myVal = 0 %} {% for itinerary in itineraries %}
@@ -60,9 +61,9 @@
         <td colspan="4">Pas d'itinéraires encore programmés ...</td>
     </tr>
     {% endfor %}
-
+    
+    </div>
 </div>
-
 {% endblock %}
 
 {% block javascripts %}

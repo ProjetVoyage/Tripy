@@ -3,6 +3,7 @@
 {% block title %}Folder index{% endblock %}
 
 {% block body %}
+<div class="container p-3">
     <h1>Folder index</h1>
 
     <table class="table">
@@ -31,5 +32,5 @@
         </tbody>
     </table>
         <a href="{{ path('folder_new', {'id': travel.id}) }}">Create new</a>
-
+</div>
 {% endblock %}

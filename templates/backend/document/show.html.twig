@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %} {% block title %}Document{% endblock %} {% block body %}
-
+<div class="container p-3">
 <h1>Document</h1>
 
 <table class="table">
@@ -39,5 +39,6 @@
     <div class="row">
         <object data="{{ asset(documentSrc) }}" type="text/html" width=800 height=500 type="text/html" />
     </div>
+</div>
 </div>
 {% endif %} {% endblock %}

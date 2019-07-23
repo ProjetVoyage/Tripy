@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %} {% block title %}Remboursements - {{ expense.description }}{% endblock %} {% block body %}
-<h1>Remboursements - {{ expense.description }}</h1>
+<div class="container p-3">
+    <h1>Remboursements - {{ expense.description }}</h1>
 
 <table class="table">
     <thead>
@@ -27,7 +28,9 @@
             <td colspan="3">Pas de remboursements à effectuer ...</td>
         </tr>
         {% endfor %}
-    </tbody>
-</table>
-
-<a href="{{ path('expense_index', {'id': expense.travel.id}) }}">Retour à la liste des dépenses</a> {% endblock %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('expense_index', {'id': expense.travel.id}) }}">Retour à la liste des dépenses</a>
+</div>
+{% endblock %}
