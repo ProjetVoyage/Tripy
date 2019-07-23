@@ -1,9 +1,19 @@
-{% extends 'base.html.twig' %} {% block title %}Mes itinéraires{% endblock %} {% block stylesheets %}
-{{ encore_entry_link_tags('map') }}
- {{ encore_entry_link_tags('itinerary') }} 
-{% endblock %} {% block body %}
-<h1>Mes itinéraires - {{ travel.name }}</h1>
+{% extends 'base.html.twig' %}
+{% block title %}Mes itinéraires{% endblock %}
+{% block stylesheets %}
 
+{{ encore_entry_link_tags('map') }}
+{{ encore_entry_link_tags('itinerary') }}
+{% endblock %}
+
+{% block body %}
+<h1>Mes itinéraires - {{ travel.name }}</h1>
+<div style="display: flex; margin-left: 15px;">
+    <p id="{{ travel.startDate|date('d/m/Y') }}" class="startDateTravel"> Du
+        {{ travel.startDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
+    <p id="{{ travel.endDate|date('d/m/Y')}}" class="endDateTravel" style="margin-left: 5px;">au
+        {{ travel.endDate|localizeddate('none', 'none', null, null, 'EEEE d LLLL Y') }}</p>
+</div>
 <div id="div_map">
     <div id="map"></div>
 </div>
@@ -11,15 +21,16 @@
 <div id="bloc_global"> {% set class_color = 'past' %}
     {% set myVal = 0 %} {% for itinerary in itineraries %}
     {% if date(itinerary.departureDate) < date() and date(itinerary.arrivalDate) > date() %}
-        {% set class_color = 'between' %}
+    {% set class_color = 'between' %}
     {% endif %}
     {% if date(itinerary.arrivalDate) < date() %}
-        {% set class_color = 'past' %}
+    {% set class_color = 'past' %}
     {% endif %}
     {% if date(itinerary.departureDate) > date() %}
-        {% set class_color = 'after' %}
+    {% set class_color = 'after' %}
     {% endif %}
-    <div class="card p-0 {{ class_color }}" id="card{{ myVal }}" lat="{{ itinerary.latitude }}" lng="{{ itinerary.longitude }}">
+    <div class="card p-0 {{ class_color }}" id="card{{ myVal }}" lat="{{ itinerary.latitude }}"
+        lng="{{ itinerary.longitude }}">
         <div class="card-image">
             <div class="actions-travel position-absolute d-flex flex-column">
                 <!-- <a href="{{ path('travels_show', {'id': travel.id}) }}" class="btn btn-primary edit" id="{{ myVal }}"><i class="far fa-edit"></i></a> -->
@@ -44,49 +55,6 @@
             </p>
         </div>
     </div>
-
-
-    <!-- <div class="card p-0" id="cardhidden{{ myVal }}" style="display: none; padding-bottom: 20px !important;">
-             <div class="card-body pb-0">
-             <form name="itinerary" method="post" action="/travels/'+id_travel+'/itineraries/newByAjax" >
-        
-            <div id="itinerary" style="margin-bottom: 22px;">
-        
-             <div style="display: flex; margin-bottom: 10px;">
-               <div>
-                   <label for="itinerary_departureDate" class="required">Date de départ</label>
-                   <input type="text" id="itinerary_departureDate" name="itinerary[departureDate]" value="{{ itinerary.departureDate.date }}" style="width:150px; margin-right: 50px;" required="required" class="js-datepicker form-control" autocomplete="off">
-                </div>
-        
-                <div>
-                    <label for="itinerary_arrivalDate" class="required">Date d'arrivé</label>
-                   <input type="text" id="itinerary_arrivalDate" name="itinerary[arrivalDate]" value="{{ itinerary.arrivalDate.date }}" style="width:150px;" required="required" class="js-datepicker form-control" autocomplete="off">
-                </div>
-            </div>
-        
-             <div style="display: flex;">
-                <div>
-                   <label for="itinerary_countryName" class="required">Pays : </label>
-                    <input type="text" id="itinerary_countryName" name="itinerary[countryName]" value="{{ itinerary.countryName }}" style="width:250px; margin-right: 25px;" required="required" class="form-control">
-               </div>
-        
-               <div>
-                   <label for="itinerary_cityName" class="required">Ville : </label>
-                   <input type="text" id="itinerary_cityName" name="itinerary[cityName]" value="{{ itinerary.cityName }}" style="width:250px;" required="required" class="form-control">
-               </div>
-            </div>
-            
-            <input type="hidden" name="itinerary[id_travel]" value="'+id_travel+'">
-        
-               </div>
-               
-               <input type="submit" value="Sauvegarder">
-             </form>
-            </div>
-            </div> -->
-
-
-
     {% set myVal = myVal + 1 %} {% else %}
     <tr>
         <td colspan="4">Pas d'itinéraires encore programmés ...</td>
@@ -95,8 +63,8 @@
 
 </div>
 
-{% endblock %} 
+{% endblock %}
 
-{% block javascripts %} 
-    {{ encore_entry_script_tags('map') }} 
+{% block javascripts %}
+{{ encore_entry_script_tags('map') }}
 {% endblock %}
