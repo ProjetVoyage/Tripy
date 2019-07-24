@@ -29,14 +29,26 @@ class ItineraryTest extends TestCase
         $this->assertTrue($itinerary->getArrivalDate() == null);
     }
 
-    public function testTheDepartureDateShouldNotBeBeforeCurrentDate() 
+    public function testTheDepartureDateShouldNotBeBeforeCurrentDate()
     {
         $itinerary = new Itinerary();
         $this->assertInstanceOf(JsonResponse::class, $itinerary->setDepartureDate(new \DateTime('-2 days')));
         $this->assertTrue($itinerary->getDepartureDate() == null);
     }
 
-    public function testTheArrivalDateShouldNotBeAfterTravelEndDate() 
+    public function testTheArrrivalDateShouldNotBeBeforeCurrentDate()
+    {
+        $travel = new Travel();
+        $travel->setStartDate(new \DateTime('-5 days'));
+        $travel->setEndDate(new \DateTime('+15 days'));
+        $itinerary = new Itinerary();
+        $itinerary->setTravel($travel);
+        $itinerary->setDepartureDate(new \DateTime('+1 days'));
+        $this->assertInstanceOf(JsonResponse::class, $itinerary->setArrivalDate(new \DateTime('-2 days')));
+        $this->assertTrue($itinerary->getArrivalDate() == null);
+    }
+
+    public function testTheArrivalDateShouldNotBeAfterTravelEndDate()
     {
         $travel = new Travel();
         $travel->setEndDate(new \DateTime());
