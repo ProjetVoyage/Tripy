@@ -6,7 +6,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "eternicode/bootstrap-datepicker": "^1.8",
-        "fzaninotto/faker": "^1.8",
         "jms/payment-core-bundle": "^1.4",
         "jms/payment-paypal-bundle": "^1.2",
         "sensio/framework-extra-bundle": "^5.3",
@@ -34,8 +33,10 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "fzaninotto/faker": "^1.8",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^4.3",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
         "symfony/var-dumper": "4.2.*",
