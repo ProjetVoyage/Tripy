@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ItineraryRepository")
@@ -74,10 +75,16 @@ class Itinerary
         return $this->arrivalDate;
     }
 
-    public function setArrivalDate(?\DateTime $arrivalDate): self
+    public function setArrivalDate(?\DateTime $arrivalDate)
     {
-        $this->arrivalDate = $arrivalDate;
-
+        if (($this->arrivalDate > $this->departureDate || $this->departureDate == null) && $arrivalDate <= $this->travel->getEndDate()) {
+            $this->arrivalDate = $arrivalDate;
+        } else { 
+            return new JsonResponse([
+                'message' => 'La date de retour doit-être supérieur à la date de départ'
+            ]);
+        }
+    
         return $this;
     }
 
@@ -86,9 +93,15 @@ class Itinerary
         return $this->departureDate;
     }
 
-    public function setDepartureDate(?\DateTime $departureDate): self
+    public function setDepartureDate(?\DateTime $departureDate)
     {
-        $this->departureDate = $departureDate;
+        if (($this->arrivalDate == null || ($this->arrivalDate > $this->departureDate && $this->departureDate != null)) && $departureDate >= new \DateTime()){
+            $this->departureDate = $departureDate;
+        } else {
+            return new JsonResponse([
+                'message' => 'La date de départ doit-être inférieure à la date de retour'
+            ]);
+        }
 
         return $this;
     }

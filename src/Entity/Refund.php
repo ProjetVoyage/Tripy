@@ -49,10 +49,12 @@ class Refund
 
     public function setSum(?int $sum)
     {
-        if ($this->isUnderMax($sum)) 
+        if ($this->isUnderMax($sum) && $this->sum != 0) 
         {
             $this->sum = $sum;
-        } else {
+        } else if ($this->sum == 0) {
+            $this->sum = $sum;
+        }   else {
             $this->sum = 0;
             return "Vous ne pouvez pas rembourser plus que le montant maximum de la dépense, nous l'avons réduite à 0";
         }
@@ -95,6 +97,6 @@ class Refund
     }
 
     public function isUnderMax($amount) {
-        return $this->sum > $amount;
+        return $this->sum >= $amount;
     }
 }

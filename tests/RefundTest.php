@@ -37,9 +37,11 @@ class RefundTest extends TestCase
 
         // PARTIAL REFUND
         $newSum = $expense->getAmount() - 40;
+
+        $this->assertTrue($refund->isUnderMax($newSum));
+
         $refund->setSum($newSum);
 
-        $this->assertTrue($refund->isOverMax($newSum));
         $this->assertEquals($refund->getSum(), 70);
     }
 
@@ -69,9 +71,11 @@ class RefundTest extends TestCase
 
         // TOTAL REFUND
         $newSum = $expense->getAmount() - $expense->getAmount();
+
+        $this->assertTrue($refund->isUnderMax($newSum));
+
         $refund->setSum($newSum);
 
-        $this->assertTrue($refund->isOverMax($newSum));
         $this->assertEquals($refund->getSum(), 0);
     }
 
@@ -98,12 +102,13 @@ class RefundTest extends TestCase
         $refund = new Refund();
         $refund->setExpense($expense);
         $refund->setSum($expense->getAmount());
-
         // TOTAL REFUND
         $newSum = $expense->getAmount() - $expense->getAmount();
+        
+        $this->assertTrue($refund->isUnderMax($newSum));
+
         $refund->setSum($newSum);
 
-        $this->assertFalse($refund->isOverMax($newSum));
         $this->assertEquals($refund->getSum(), 0);
     }
 }

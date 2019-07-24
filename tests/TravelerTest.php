@@ -5,6 +5,7 @@ namespace App\Tests;
 
 
 use App\Entity\Traveler;
+use App\Entity\Travel;
 use PHPUnit\Framework\TestCase;
 use Faker;
 
@@ -85,7 +86,7 @@ class TravelerTest extends TestCase
 
         $this->assertEquals($traveler->getRoles(), ['ROLE_ADMIN', 'ROLE_USER']);
     }
-}
+
     public function testTravelerInviteSameTraveler()
     {
         $faker = Faker\Factory::create('fr_FR');
@@ -112,3 +113,4 @@ class TravelerTest extends TestCase
 
         $this->assertEquals(count($numberTravelers), 2);
     }
+}
