@@ -12,6 +12,7 @@ env:
     - SYMFONY_PHPUNIT_DIR=./bin/.phpunit
     - SYMFONY_DEPRECATIONS_HELPER=29
     - ACTION="install"
+    - APP_ENV=test
 
 matrix:
   fast_finish: true
