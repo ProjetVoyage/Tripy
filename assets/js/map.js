@@ -282,5 +282,4 @@ window.onload = function () {
         days = (end - start) / (1000 * 60 * 60 * 24);
         return Math.round(days);
     }
-
-}
+};
